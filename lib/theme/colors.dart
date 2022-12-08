@@ -15,8 +15,8 @@ const Color secondaryColorDark = Color(0xff008ba2);
 const Color primaryTextColor = Color(0xff424242);
 const Color secondaryTextColor = Color(0xffffffff);
 
-const Color successColor = Color(0xff71bc16);
-const Color infoColor = Color(0xff37a3fc);
-const Color warningColor = Color(0xffffde07);
-const Color errorColor = Color(0xffff3535);
+const Color successColor = Colors.green;
+const Color infoColor = Colors.blue;
+const Color warningColor = Colors.amber;
+const Color errorColor = Colors.red;
 const Color disableColor = Colors.grey;

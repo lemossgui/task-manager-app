@@ -16,13 +16,17 @@ class HomePage extends ScreenView<HomeBloC> {
           ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentIndex,
-            backgroundColor: backgroundColorDark,
+            backgroundColor: backgroundColor,
             selectedItemColor: secondaryColor,
             unselectedItemColor: primaryColorLight,
             onTap: (index) {
               bloc.dispatch<int>(index, key: HomeKey.currentIndex);
             },
             items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Perfil',
+              ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.task),
                 label: 'Tarefas',
@@ -41,43 +45,13 @@ class HomePage extends ScreenView<HomeBloC> {
   Widget _getPage(int index) {
     switch (index) {
       case 0:
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('Tarefas'),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 16.0,
-                ),
-                child: TextButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32.0),
-                      ),
-                    ),
-                    backgroundColor: MaterialStateProperty.all(secondaryColor),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      'Adicionar',
-                      style: text.copyWith(
-                        color: secondaryTextColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
+        return const ProfilePage();
       case 1:
+        return const TaskListPage();
+      case 2:
         return const CategoryListPage();
       default:
-        return Container();
+        return const SizedBox.shrink();
     }
   }
 }

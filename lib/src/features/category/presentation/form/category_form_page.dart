@@ -23,13 +23,13 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
                   onPressed: () => isEditing
                       ? bloc.dispatchEvent(UpdateCategory())
                       : bloc.dispatchEvent(SaveCategory()),
-                  label: isEditing ? 'Salvar' : 'Cadastrar',
+                  label: 'Salvar',
                 ),
               ),
             ],
           ),
           body: SingleChildScrollView(
-            padding: getFormBasePadding(context),
+            padding: getBasePadding(context),
             child: Column(
               children: [
                 StreamTextField(
@@ -67,12 +67,20 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
+                  vertical: 16.0,
                   horizontal: 16.0,
                 ),
                 decoration: BoxDecoration(
-                  color: backgroundColorDark,
+                  color: backgroundColorLight,
                   borderRadius: BorderRadius.circular(16.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: const Offset(0, 2), // changes position of shadow
+                    ),
+                  ],
                   border: hasError
                       ? Border.all(
                           color: errorColor,
@@ -88,7 +96,7 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
                               height: 40.0,
                               width: 8.0,
                               decoration: BoxDecoration(
-                                color: getColorValueByKey(color),
+                                color: getCategoryColorValue(color),
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                             ),
@@ -106,7 +114,7 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
                             ),
                           ),
                           Text(
-                            hasColor ? getColorDescriptionByKey(color) : '-',
+                            hasColor ? getCategoryColorDescription(color) : '-',
                             style: text.bold,
                           ),
                         ],

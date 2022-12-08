@@ -33,7 +33,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/to_do_list.svg
+    - assets/images/empty.svg
+    - assets/images/task_list.svg
   fonts:
     - family: Ubuntu
       fonts:

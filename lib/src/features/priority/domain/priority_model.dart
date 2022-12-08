@@ -1,16 +1,14 @@
-import 'dart:convert';
-
 import 'package:task_manager/task_manager.dart';
 
-class CategoryModel extends Searchable {
+class PriorityModel extends Searchable {
   final int id;
   final String description;
-  final String color;
+  final String key;
 
-  CategoryModel({
+  PriorityModel({
     required this.id,
     required this.description,
-    required this.color,
+    required this.key,
   });
 
   Map<String, dynamic> toMap() {
@@ -18,21 +16,21 @@ class CategoryModel extends Searchable {
 
     result.addAll({'id': id});
     result.addAll({'description': description});
-    result.addAll({'color': color});
+    result.addAll({'key': key});
 
     return result;
   }
 
-  factory CategoryModel.fromMap(Map<String, dynamic> map) {
-    return CategoryModel(
+  factory PriorityModel.fromMap(Map<String, dynamic> map) {
+    return PriorityModel(
       id: map['id']?.toInt() ?? 0,
       description: map['description'] ?? '',
-      color: map['color'] ?? '',
+      key: map['key'] ?? '',
     );
   }
 
-  static List<CategoryModel> listFromMap(List<dynamic> list) {
-    return list.map((map) => CategoryModel.fromMap(map)).toList();
+  static List<PriorityModel> listFromMap(List<dynamic> list) {
+    return list.map((map) => PriorityModel.fromMap(map)).toList();
   }
 
   @override

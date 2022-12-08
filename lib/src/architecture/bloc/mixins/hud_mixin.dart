@@ -8,14 +8,26 @@ mixin HudMixin {
     String? title,
     required Color backgroundColor,
     SnackPosition? position,
+    Widget? icon,
   }) {
     Get.showSnackbar(
       GetSnackBar(
         title: title,
         message: message,
         backgroundColor: backgroundColor,
-        duration: const Duration(seconds: 2),
+        borderRadius: 16.0,
+        margin: const EdgeInsets.all(16.0),
+        duration: const Duration(seconds: 3),
         snackPosition: position ?? SnackPosition.BOTTOM,
+        icon: icon,
+        boxShadows: [
+          BoxShadow(
+            color: const Color.fromARGB(255, 71, 46, 46).withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 2), // changes position of shadow
+          ),
+        ],
       ),
     );
   }
@@ -24,13 +36,21 @@ mixin HudMixin {
     showSnackBar(
       message,
       backgroundColor: successColor,
+      icon: const Icon(
+        Icons.check_circle_rounded,
+        color: backgroundColorLight,
+      ),
     );
   }
 
-  void showFailure(String message) {
+  void showInfo(String message) {
     showSnackBar(
       message,
-      backgroundColor: errorColor,
+      backgroundColor: infoColor,
+      icon: const Icon(
+        Icons.info_rounded,
+        color: backgroundColorLight,
+      ),
     );
   }
 
@@ -38,6 +58,21 @@ mixin HudMixin {
     showSnackBar(
       message,
       backgroundColor: warningColor,
+      icon: const Icon(
+        Icons.warning_rounded,
+        color: backgroundColorLight,
+      ),
+    );
+  }
+
+  void showError(String message) {
+    showSnackBar(
+      message,
+      backgroundColor: errorColor,
+      icon: const Icon(
+        Icons.cancel_rounded,
+        color: backgroundColorLight,
+      ),
     );
   }
 

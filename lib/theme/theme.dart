@@ -10,6 +10,7 @@ ThemeData defaultTheme = ThemeData(
   primaryColorDark: primaryColorDark,
   errorColor: errorColor,
   focusColor: secondaryColor,
+  bottomAppBarColor: secondaryColor,
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(primaryColor),
@@ -32,7 +33,7 @@ ThemeData defaultTheme = ThemeData(
     elevation: 0.0,
     titleTextStyle: headline2.bold.copyWith(color: primaryColor),
     iconTheme: const IconThemeData(
-      color: primaryColor,
+      color: secondaryColor,
     ),
     centerTitle: false,
   ),

@@ -25,10 +25,14 @@ class SelectColorBloC extends BloC<SelectColorEvent> {
     final result = await categoryRepository.findAll();
     result.map((categories) {
       final colorsInUse = categories.map((item) => item.color).toList();
-      final availableColors =
-          colors.where((item) => !colorsInUse.contains(item.key)).toList();
-      dispatch<List<ColorItem>>(availableColors, key: SelectColorKey.list);
-    }).mapError(showFailure);
+      final availableColors = categoryColors
+          .where((item) => !colorsInUse.contains(item.key))
+          .toList();
+      dispatch<List<CategoryColorItem>>(
+        availableColors,
+        key: SelectColorKey.list,
+      );
+    }).mapError(showError);
   }
 
   void _dispatchSelectedColor() {

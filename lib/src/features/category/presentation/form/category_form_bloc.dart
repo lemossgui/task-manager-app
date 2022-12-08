@@ -17,13 +17,6 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
     required this.repository,
   });
 
-  @override
-  void onReady() {
-    _setupRequiredFields();
-    _fillForm();
-    super.onReady();
-  }
-
   int get _id => map[CategoryFormKey.id] ?? 0;
   String? get _description => map[CategoryFormKey.description];
   String? get _color => map[CategoryFormKey.color];
@@ -40,17 +33,11 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
     dispatch<String?>(value, key: CategoryFormKey.color);
   }
 
-  void _fillForm() {
-    final category = arguments as CategoryModel?;
-    final isEditing = category != null;
-
-    dispatch<bool>(isEditing, key: CategoryFormKey.isEditing);
-
-    if (isEditing) {
-      _dispatchId(category.id);
-      _dispatchDescription(category.description);
-      _dispatchColor(category.color);
-    }
+  @override
+  void onReady() {
+    _setupRequiredFields();
+    _fillForm();
+    super.onReady();
   }
 
   void _setupRequiredFields() {
@@ -62,6 +49,19 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
       requiredStringStreamValidator(),
       key: CategoryFormKey.color,
     );
+  }
+
+  void _fillForm() {
+    final category = arguments as CategoryModel?;
+    final isEditing = category != null;
+
+    dispatch<bool>(isEditing, key: CategoryFormKey.isEditing);
+
+    if (isEditing) {
+      _dispatchId(category.id);
+      _dispatchDescription(category.description);
+      _dispatchColor(category.color);
+    }
   }
 
   @override
@@ -92,7 +92,7 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
     if (!isValid) {
       _dispatchDescription(_description);
       _dispatchColor(_color);
-      showFailure('Preencha todos os campos');
+      showError('Preencha todos os campos');
     }
 
     return isValid;
@@ -114,7 +114,7 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
     await doPersist(
       action: () async {
         final result = await repository.save(_model);
-        result.map(_handleSaveSuccess).mapError(showFailure);
+        result.map(_handleSaveSuccess).mapError(showError);
       },
     );
   }
@@ -132,7 +132,7 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
     await doPersist(
       action: () async {
         final result = await repository.update(_id, _model);
-        result.map(_handleUpdateSuccess).mapError(showFailure);
+        result.map(_handleUpdateSuccess).mapError(showError);
       },
     );
   }

@@ -8,7 +8,10 @@ class MainInjector extends Injector {
     RootInjector().dependencies();
     LoginInjector().dependencies();
     HomeInjector().dependencies();
+    ProfileInjector().dependencies();
     CategoryInjector().dependencies();
     SelectColorInjector().dependencies();
+    PriorityInjector().dependencies();
+    TaskInjector().dependencies();
   }
 }

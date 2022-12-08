@@ -3,23 +3,25 @@ import 'package:flutter/material.dart';
 
 class StreamDropdownButtonFormField<T extends Searchable>
     extends StatelessWidget {
+  final String hintText;
+  final Stream<List<T>> streamItems;
   final Stream<T?> streamSelected;
+  final Function(T?) onSelected;
   final bool requiredField;
   final bool enable;
-  final String? hintText;
-  final Stream<List<T>> streamItems;
-  final Function(T?) onSelected;
   final bool closeKeyboardAfterSelect;
+  final Widget Function(T)? buildItem;
 
   const StreamDropdownButtonFormField({
     Key? key,
-    required this.streamSelected,
-    required this.requiredField,
+    required this.hintText,
     required this.streamItems,
+    required this.streamSelected,
     required this.onSelected,
+    required this.requiredField,
     this.enable = true,
     this.closeKeyboardAfterSelect = true,
-    this.hintText,
+    this.buildItem,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class StreamDropdownButtonFormField<T extends Searchable>
                     color: enable ? primaryTextColor : disableColor,
                   ),
                   decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
                     alignLabelWithHint: true,
                     labelText: hintText,
                     labelStyle: text.copyWith(
@@ -68,9 +71,6 @@ class StreamDropdownButtonFormField<T extends Searchable>
 
   void onChanged(T? value, context) {
     if (enable) {
-      // if (closeKeyboardAfterSelect) {
-      //   FocusScope.of(context).requestFocus(FocusNode());
-      // }
       onSelected(value);
       return;
     }
@@ -83,13 +83,14 @@ class StreamDropdownButtonFormField<T extends Searchable>
 
   DropdownMenuItem<T> _buildItem(T item) {
     return DropdownMenuItem<T>(
-      child: Text(
-        item.searchable,
-        style: text.copyWith(
-          color: enable ? primaryTextColor : disableColor,
-        ),
-      ),
       value: item,
+      child: buildItem?.call(item) ??
+          Text(
+            item.searchable,
+            style: text.copyWith(
+              color: enable ? primaryTextColor : disableColor,
+            ),
+          ),
     );
   }
 }

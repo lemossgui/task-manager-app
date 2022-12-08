@@ -20,14 +20,9 @@ class CategoryListBloC extends BloC<CategoryListEvent> {
     super.onReady();
   }
 
-  List<String> get _colorsInUse {
-    List<CategoryModel> categories = map[CategoryListKey.list];
-    return categories.map((item) => item.color).toList();
-  }
-
   Future<void> _loadAllCategories() async {
     final result = await repository.findAll();
-    result.map(_onLoadAllSuccess).mapError(showFailure);
+    result.map(_onLoadAllSuccess).mapError(showError);
   }
 
   void _onLoadAllSuccess(List<CategoryModel> list) {
@@ -55,7 +50,9 @@ class CategoryListBloC extends BloC<CategoryListEvent> {
   }
 
   void _showDeleteCategoryDialog(CategoryModel category) async {
-    final deleted = await dialog(const CategoryDeleteDialog());
+    final deleted = await dialog(
+      CategoryDeleteDialog(category: category),
+    );
     if (deleted == true) {
       await doPersist(
         action: () async {
@@ -63,7 +60,7 @@ class CategoryListBloC extends BloC<CategoryListEvent> {
           result.map((_) {
             showSuccess('Categoria excluída com sucesso!');
             _loadAllCategories();
-          }).mapError(showFailure);
+          }).mapError(showError);
         },
       );
     }

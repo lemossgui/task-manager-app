@@ -1,7 +1,7 @@
 import 'package:task_manager/task_manager.dart';
 
-enum LoginField {
-  identifier,
+enum LoginKey {
+  email,
   password,
 }
 
@@ -22,25 +22,25 @@ class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
     super.onReady();
   }
 
-  String? get _identifier => map[LoginField.identifier];
-  String? get _password => map[LoginField.password];
+  String? get _email => map[LoginKey.email];
+  String? get _password => map[LoginKey.password];
 
-  void _dispatchIdentifier(String? value) {
-    dispatch<String?>(value, key: LoginField.identifier);
+  void _dispatchEmail(String? value) {
+    dispatch<String?>(value, key: LoginKey.email);
   }
 
   void _dispatchPassword(String? value) {
-    dispatch<String?>(value, key: LoginField.password);
+    dispatch<String?>(value, key: LoginKey.password);
   }
 
   void _setupRequiredFields() {
     addTransformOn<String?, String?>(
       requiredStringStreamValidator(),
-      key: LoginField.identifier,
+      key: LoginKey.email,
     );
     addTransformOn<String?, String?>(
       requiredStringStreamValidator(),
-      key: LoginField.password,
+      key: LoginKey.password,
     );
   }
 
@@ -54,12 +54,12 @@ class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
   }
 
   bool get _credentialsIsValid {
-    final isValid = _identifier.hasValue && _password.hasValue;
+    final isValid = _email.hasValue && _password.hasValue;
 
     if (!isValid) {
-      _dispatchIdentifier(_identifier);
+      _dispatchEmail(_email);
       _dispatchPassword(_password);
-      showFailure('Preencha todos os campos');
+      showError('Preencha todos os campos');
     }
 
     return isValid;
@@ -73,11 +73,11 @@ class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
     await doPersist(
       action: () async {
         final credentials = CredentialsModel(
-          identifier: _identifier!,
+          email: _email!,
           password: _password!,
         );
         final result = await repository.doLogin(credentials: credentials);
-        result.map(_handleLoginSuccess).mapError(showFailure);
+        result.map(_handleLoginSuccess).mapError(showError);
       },
     );
   }

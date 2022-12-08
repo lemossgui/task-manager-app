@@ -1,18 +1,18 @@
 import 'dart:convert';
 
 class CredentialsModel {
-  final String identifier;
+  final String email;
   final String password;
 
   CredentialsModel({
-    required this.identifier,
+    required this.email,
     required this.password,
   });
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
-    result.addAll({'identifier': identifier});
+    result.addAll({'email': email});
     result.addAll({'password': password});
 
     return result;

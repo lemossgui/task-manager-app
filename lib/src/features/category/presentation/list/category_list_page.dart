@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:task_manager/task_manager.dart';
+import 'package:flutter/material.dart';
 
 class CategoryListPage extends ScreenView<CategoryListBloC> {
   const CategoryListPage({super.key});
@@ -7,51 +7,69 @@ class CategoryListPage extends ScreenView<CategoryListBloC> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Categorias'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 16.0,
-            ),
-            child: MyTextButton(
-              onPressed: () {
-                bloc.dispatchEvent(
-                  NavigateToCategoryForm(),
-                );
-              },
-              label: 'Adicionar',
-            ),
+      appBar: _buildAppBar(),
+      body: _buildCategories(context),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      title: const Text('Categorias'),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 10.0,
+            horizontal: 16.0,
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: getListBasePadding(context),
-        child: StreamBuilder<List<CategoryModel>>(
-          stream: bloc.streamOf<List<CategoryModel>>(
-            key: CategoryListKey.list,
+          child: MyTextButton(
+            onPressed: () {
+              bloc.dispatchEvent(
+                NavigateToCategoryForm(),
+              );
+            },
+            label: 'Adicionar',
           ),
-          builder: (_, snapshot) {
-            final list = snapshot.data ?? List.empty();
-            return Column(
-              children: list.map(_buildCategoryItem).toList(),
-            );
-          },
         ),
+      ],
+    );
+  }
+
+  Widget _buildCategories(BuildContext context) {
+    return StreamBuilder<List<CategoryModel>>(
+      stream: bloc.streamOf<List<CategoryModel>>(
+        key: CategoryListKey.list,
       ),
+      builder: (_, snapshot) {
+        final list = snapshot.data ?? List<CategoryModel>.empty();
+        if (!snapshot.hasData) {
+          return const LoadingWidget(
+            message: 'Buscando categorias',
+          );
+        } else if (snapshot.hasData && list.isEmpty) {
+          return const EmptyListWidget(
+            message: 'Nenhuma categoria encontrada',
+          );
+        } else {
+          return SingleChildScrollView(
+            padding: getBasePadding(context),
+            child: SeparatedColumn(
+              children: list.map(_buildCategoryItem).toList(),
+            ),
+          );
+        }
+      },
     );
   }
 
   Widget _buildCategoryItem(CategoryModel category) {
-    return ListCard(
+    return MyCard(
       content: Row(
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: Container(
               decoration: BoxDecoration(
-                color: getColorValueByKey(category.color),
+                color: getCategoryColorValue(category.color),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               height: 40.0,
@@ -70,7 +88,7 @@ class CategoryListPage extends ScreenView<CategoryListBloC> {
                   ),
                 ),
                 Text(
-                  getColorDescriptionByKey(category.color),
+                  getCategoryColorDescription(category.color),
                   style: text,
                 ),
               ],

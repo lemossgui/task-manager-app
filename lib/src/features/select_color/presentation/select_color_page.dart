@@ -11,57 +11,59 @@ class SelectColorPage extends ScreenView<SelectColorBloC> {
         title: const Text('Seleção de Cor'),
       ),
       body: SingleChildScrollView(
-        padding: getListBasePadding(context),
+        padding: getBasePadding(context),
         child: StreamBuilder<String?>(
-            stream: bloc.streamOf<String?>(
-              key: SelectColorKey.selected,
-            ),
-            builder: (_, snapshot) {
-              final selectedColor = snapshot.data;
-              return StreamBuilder<List<ColorItem>>(
-                  stream: bloc.streamOf<List<ColorItem>>(
-                    key: SelectColorKey.list,
-                  ),
-                  builder: (_, snapshot) {
-                    final list = snapshot.data ?? List.empty();
-                    return Column(
-                      children: list.map((item) {
-                        return ListCard(
-                          onTap: () {
-                            bloc.dispatchEvent(
-                              SelectColor(key: item.key),
-                            );
-                          },
-                          content: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 16.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: getColorValueByKey(item.key),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  height: 40.0,
-                                  width: 8.0,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  getColorDescriptionByKey(item.key),
-                                  style: subtitle.bold,
-                                ),
-                              ),
-                              Visibility(
-                                visible: selectedColor == item.key,
-                                child: const Icon(Icons.check_box_rounded),
-                              ),
-                            ],
-                          ),
+          stream: bloc.streamOf<String?>(
+            key: SelectColorKey.selected,
+          ),
+          builder: (_, snapshot) {
+            final selectedColor = snapshot.data;
+            return StreamBuilder<List<CategoryColorItem>>(
+              stream: bloc.streamOf<List<CategoryColorItem>>(
+                key: SelectColorKey.list,
+              ),
+              builder: (_, snapshot) {
+                final list = snapshot.data ?? List.empty();
+                return SeparatedColumn(
+                  children: list.map((item) {
+                    return MyCard(
+                      onTap: () {
+                        bloc.dispatchEvent(
+                          SelectColor(key: item.key),
                         );
-                      }).toList(),
+                      },
+                      content: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: getCategoryColorValue(item.key),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              height: 40.0,
+                              width: 8.0,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              getCategoryColorDescription(item.key),
+                              style: subtitle.bold,
+                            ),
+                          ),
+                          Visibility(
+                            visible: selectedColor == item.key,
+                            child: const Icon(Icons.check_box_rounded),
+                          ),
+                        ],
+                      ),
                     );
-                  });
-            }),
+                  }).toList(),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

@@ -27,6 +27,24 @@ List<Screen> routes = [
     injector: HomeInjector(),
   ),
   Screen(
+    name: ProfileBloC.route,
+    page: () => const ProfilePage(),
+    injector: ProfileInjector(),
+  ),
+  Screen(
+    name: TaskListBloC.route,
+    page: () => const TaskListPage(),
+    injector: TaskInjector(),
+  ),
+  Screen(
+    name: TaskFormBloC.route,
+    page: () => const TaskFormPage(),
+    transition: _defaultTransition,
+    transitionDuration: _defaultTransitionDuration,
+    curve: _defaultCurve,
+    injector: TaskInjector(),
+  ),
+  Screen(
     name: CategoryListBloC.route,
     page: () => const CategoryListPage(),
     injector: CategoryInjector(),

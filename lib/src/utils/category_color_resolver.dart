@@ -1,85 +1,85 @@
 import 'package:flutter/material.dart';
 
-class ColorItem {
+class CategoryColorItem {
   final String key;
   final String description;
   final Color? value;
 
-  ColorItem({
+  CategoryColorItem({
     required this.key,
     required this.description,
     required this.value,
   });
 }
 
-final colors = [
-  ColorItem(
+final categoryColors = [
+  CategoryColorItem(
     key: 'red',
     description: 'Vermelho',
     value: Colors.red,
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'pink',
     description: 'Rosa',
     value: Colors.pink[200],
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'lilac',
     description: 'Lilás',
     value: Colors.purple[200],
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'purple',
     description: 'Roxo',
     value: Colors.deepPurple,
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'blue',
     description: 'Azul',
     value: Colors.blue,
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'light_blue',
     description: 'Azul Claro',
     value: Colors.lightBlue[200],
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'cyan',
     description: 'Ciano',
     value: Colors.cyan,
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'green',
     description: 'Verde',
     value: Colors.green,
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'light_green',
     description: 'Verde Claro',
     value: Colors.lightGreen[200],
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'yellow',
     description: 'Amarelo',
     value: Colors.yellow,
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'orange',
     description: 'Laranja',
     value: Colors.orange,
   ),
-  ColorItem(
+  CategoryColorItem(
     key: 'brown',
     description: 'Marrom',
     value: Colors.brown,
   ),
 ];
 
-Color getColorValueByKey(String? key) {
-  return colors.firstWhere((item) => item.key == key).value ??
-      Colors.transparent;
+Color getCategoryColorValue(String? key) {
+  final color = categoryColors.firstWhere((item) => item.key == key).value;
+  return color ?? Colors.transparent;
 }
 
-String getColorDescriptionByKey(String? key) {
-  return colors.firstWhere((item) => item.key == key).description;
+String getCategoryColorDescription(String? key) {
+  return categoryColors.firstWhere((item) => item.key == key).description;
 }

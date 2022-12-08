@@ -11,69 +11,93 @@ class LoginPage extends ScreenView<LoginBloC> {
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Container(
-          padding: getFormBasePadding(context),
+          padding: getBasePadding(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              const Image(
-                height: 200.0,
-                width: 200.0,
-                image: Svg('assets/images/to_do_list.svg'),
-              ),
-              StreamTextField(
-                stream: bloc.streamOf<String?>(
-                  key: LoginField.identifier,
-                ),
-                onChanged: (value) => bloc.dispatch<String?>(
-                  value,
-                  key: LoginField.identifier,
-                ),
-                hintText: 'Usuário ou e-mail',
-                keyboardType: TextInputType.emailAddress,
-              ),
-              StreamTextField(
-                stream: bloc.streamOf<String?>(
-                  key: LoginField.password,
-                ),
-                onChanged: (value) => bloc.dispatch<String?>(
-                  value,
-                  key: LoginField.password,
-                ),
-                hintText: 'Senha',
-                obscureText: true,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 32.0),
-                child: ElevatedPersistentButton(
-                  bloc: bloc,
-                  text: 'Acessar',
-                  color: primaryColor,
-                  onPressed: () => bloc.dispatchEvent(DoLogin()),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      secondaryColor,
-                    ),
-                  ),
-                  onPressed: () => bloc.dispatchEvent(NavigateToRegister()),
-                  child: Container(
-                    height: 48.0,
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: const Text(
-                      'Cadastro',
-                      style: subtitle,
-                    ),
-                  ),
-                ),
-              ),
+              _buildImage(),
+              _buildEmailField(),
+              _buildPasswordField(),
+              _buildAccessButton(),
+              _buildRegisterButton(),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImage() {
+    return const Image(
+      height: 200.0,
+      width: 200.0,
+      image: Svg('assets/images/task_list.svg'),
+    );
+  }
+
+  Widget _buildEmailField() {
+    return StreamTextField(
+      stream: bloc.streamOf<String?>(
+        key: LoginKey.email,
+      ),
+      onChanged: (value) => bloc.dispatch<String?>(
+        value,
+        key: LoginKey.email,
+      ),
+      hintText: 'E-mail',
+      keyboardType: TextInputType.emailAddress,
+    );
+  }
+
+  Widget _buildPasswordField() {
+    return StreamBuilder<bool>(
+        stream: null,
+        builder: (context, snapshot) {
+          return StreamTextField(
+            stream: bloc.streamOf<String?>(
+              key: LoginKey.password,
+            ),
+            onChanged: (value) => bloc.dispatch<String?>(
+              value,
+              key: LoginKey.password,
+            ),
+            hintText: 'Senha',
+            obscureText: true,
+          );
+        });
+  }
+
+  Widget _buildAccessButton() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 32.0),
+      child: ElevatedPersistentButton(
+        bloc: bloc,
+        text: 'Acessar',
+        color: primaryColor,
+        onPressed: () => bloc.dispatchEvent(DoLogin()),
+      ),
+    );
+  }
+
+  Widget _buildRegisterButton() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+            secondaryColor,
+          ),
+        ),
+        onPressed: () => bloc.dispatchEvent(NavigateToRegister()),
+        child: Container(
+          height: 48.0,
+          width: double.infinity,
+          alignment: Alignment.center,
+          child: const Text(
+            'Cadastro',
+            style: subtitle,
           ),
         ),
       ),
