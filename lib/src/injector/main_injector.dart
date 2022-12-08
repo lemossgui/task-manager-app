@@ -1,3 +1,4 @@
+import 'package:task_manager/src/features/select_color/select_color_injector.dart';
 import 'package:task_manager/task_manager.dart';
 
 class MainInjector extends Injector {
@@ -7,5 +8,7 @@ class MainInjector extends Injector {
     RootInjector().dependencies();
     LoginInjector().dependencies();
     HomeInjector().dependencies();
+    CategoryInjector().dependencies();
+    SelectColorInjector().dependencies();
   }
 }

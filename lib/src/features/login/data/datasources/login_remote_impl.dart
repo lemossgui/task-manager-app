@@ -2,7 +2,7 @@ import 'package:multiple_result/multiple_result.dart';
 import 'package:task_manager/task_manager.dart';
 
 class LoginRemoteImpl extends BaseConnector implements LoginStore {
-  final _baseUrl = '/authentication/login';
+  final _endpoint = '/authentication/login';
 
   @override
   AsyncResult<String, String> doLogin({
@@ -10,12 +10,9 @@ class LoginRemoteImpl extends BaseConnector implements LoginStore {
   }) async {
     try {
       final body = credentials.toMap();
-      final responseRaw = await post(_baseUrl, body);
-      final response = Response.fromMap(responseRaw.body);
-      if (response.isSuccess) {
-        return Success(response.params);
-      }
-      return Error(response.message);
+      return post(_endpoint, body)
+          .then((json) => Response.fromMap(json.body))
+          .then((response) => response.getResult());
     } on Exception catch (_) {
       return const Error('Falha ao realizar autenticação');
     }

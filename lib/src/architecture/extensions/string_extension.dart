@@ -6,6 +6,10 @@ extension NullableStringExtensions on String? {
     return this == null || this?.isEmpty == true;
   }
 
+  bool get hasValue {
+    return !isNullOrEmpty;
+  }
+
   DateTime? toDateTime() {
     if (this != null) {
       final formatter = DateFormat('dd/MM/yyyy');

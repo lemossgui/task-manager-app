@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ListCard extends StatelessWidget {
-  final Function onTap;
+  final Function? onTap;
   final Widget content;
 
   const ListCard({
     Key? key,
-    required this.onTap,
+    this.onTap,
     required this.content,
   }) : super(key: key);
 
@@ -22,7 +22,7 @@ class ListCard extends StatelessWidget {
           horizontal: 16.0,
           vertical: 8.0,
         ),
-        onTap: () => onTap(),
+        onTap: onTap != null ? () => onTap?.call() : null,
         shape: shape,
         title: content,
       ),

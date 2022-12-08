@@ -5,7 +5,7 @@ enum LoginField {
   password,
 }
 
-class LoginBloC extends BloC<LoginEvent> {
+class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
   static const route = '/login';
 
   final LoginRepository repository;
@@ -17,6 +17,34 @@ class LoginBloC extends BloC<LoginEvent> {
   });
 
   @override
+  void onReady() {
+    _setupRequiredFields();
+    super.onReady();
+  }
+
+  String? get _identifier => map[LoginField.identifier];
+  String? get _password => map[LoginField.password];
+
+  void _dispatchIdentifier(String? value) {
+    dispatch<String?>(value, key: LoginField.identifier);
+  }
+
+  void _dispatchPassword(String? value) {
+    dispatch<String?>(value, key: LoginField.password);
+  }
+
+  void _setupRequiredFields() {
+    addTransformOn<String?, String?>(
+      requiredStringStreamValidator(),
+      key: LoginField.identifier,
+    );
+    addTransformOn<String?, String?>(
+      requiredStringStreamValidator(),
+      key: LoginField.password,
+    );
+  }
+
+  @override
   void handleEvent(LoginEvent event) {
     if (event is DoLogin) {
       _doLogin();
@@ -25,16 +53,20 @@ class LoginBloC extends BloC<LoginEvent> {
     }
   }
 
-  String? get _identifier => map[LoginField.identifier];
-  String? get _password => map[LoginField.password];
-
   bool get _credentialsIsValid {
-    return _identifier != null && _password != null;
+    final isValid = _identifier.hasValue && _password.hasValue;
+
+    if (!isValid) {
+      _dispatchIdentifier(_identifier);
+      _dispatchPassword(_password);
+      showFailure('Preencha todos os campos');
+    }
+
+    return isValid;
   }
 
   void _doLogin() async {
     if (!_credentialsIsValid) {
-      showFailure('Preencha o campo de e-mail e senha');
       return;
     }
 
@@ -53,7 +85,7 @@ class LoginBloC extends BloC<LoginEvent> {
   void _handleLoginSuccess(String token) async {
     await saveSession(token);
     popToNamed(RootBloC.route);
-    showSuccess('Sessão iniciada com sucesso!');
+    showSuccess('Usuário autenticado com sucesso!');
   }
 
   Future<void> saveSession(String token) async {

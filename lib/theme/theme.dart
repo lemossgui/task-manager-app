@@ -12,8 +12,12 @@ ThemeData defaultTheme = ThemeData(
   focusColor: secondaryColor,
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(secondaryColor),
+      backgroundColor: MaterialStateProperty.all(primaryColor),
+      textStyle: MaterialStateProperty.all(text),
     ),
+  ),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    backgroundColor: primaryColor,
   ),
   inputDecorationTheme: const InputDecorationTheme(
     focusedBorder: UnderlineInputBorder(
@@ -23,7 +27,13 @@ ThemeData defaultTheme = ThemeData(
       ),
     ),
   ),
-  appBarTheme: const AppBarTheme(
-    backgroundColor: primaryColorDark,
+  appBarTheme: AppBarTheme(
+    backgroundColor: backgroundColor,
+    elevation: 0.0,
+    titleTextStyle: headline2.bold.copyWith(color: primaryColor),
+    iconTheme: const IconThemeData(
+      color: primaryColor,
+    ),
+    centerTitle: false,
   ),
 );

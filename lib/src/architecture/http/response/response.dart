@@ -1,3 +1,5 @@
+import 'package:multiple_result/multiple_result.dart';
+
 class Response<T> {
   final T? params;
   final String message;
@@ -14,6 +16,20 @@ class Response<T> {
   });
 
   bool get isSuccess => status == 'success';
+
+  Result<S, String> getResult<S>() {
+    if (isSuccess) {
+      return Success(params as S);
+    }
+    return Error(message);
+  }
+
+  Result<S, String> mapAndGetResult<S>(S Function(T? params) fromJson) {
+    if (isSuccess) {
+      return Success(fromJson(params));
+    }
+    return Error(message);
+  }
 
   factory Response.fromMap(Map<String, dynamic> map) {
     return Response<T>(

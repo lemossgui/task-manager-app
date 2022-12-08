@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+const headline2 = TextStyle(
+  fontSize: 28.0,
+);
+
 const headline = TextStyle(
   fontSize: 22.0,
 );
@@ -22,4 +26,6 @@ const smallText = TextStyle(
 
 extension FontsFunctions on TextStyle {
   TextStyle get bold => copyWith(fontWeight: FontWeight.bold);
+
+  TextStyle get semiBold => copyWith(fontWeight: FontWeight.w600);
 }
