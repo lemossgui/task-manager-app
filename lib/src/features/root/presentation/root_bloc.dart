@@ -16,6 +16,7 @@ class RootBloC extends BloC<RootEvent> {
   }
 
   void _checkSession() async {
+    await Future.delayed(const Duration(seconds: 5));
     final isLogged = await sessionRepository.isLogged;
     if (isLogged) {
       popAndToNamed(HomeBloC.route);

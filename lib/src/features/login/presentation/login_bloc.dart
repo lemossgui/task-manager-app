@@ -18,6 +18,8 @@ class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
 
   @override
   void onReady() {
+    _dispatchEmail('guilherme.lemos@rede.ulbra.br');
+    _dispatchPassword('123456');
     _setupRequiredFields();
     super.onReady();
   }
@@ -84,7 +86,7 @@ class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
 
   void _handleLoginSuccess(String token) async {
     await saveSession(token);
-    popToNamed(RootBloC.route);
+    popAndToNamed(HomeBloC.route);
     showSuccess('Usuário autenticado com sucesso!');
   }
 

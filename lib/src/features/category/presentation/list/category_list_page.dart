@@ -47,7 +47,7 @@ class CategoryListPage extends ScreenView<CategoryListBloC> {
           );
         } else if (snapshot.hasData && list.isEmpty) {
           return const EmptyListWidget(
-            message: 'Nenhuma categoria encontrada',
+            message: 'Nenhuma categoria cadastrada',
           );
         } else {
           return SingleChildScrollView(

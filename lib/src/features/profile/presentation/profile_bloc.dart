@@ -18,6 +18,6 @@ class ProfileBloC extends BloC<ProfileEvent> {
 
   void _doLogout() async {
     await sessionRepository.clear();
-    popAndToNamed(RootBloC.route);
+    popAndToNamed(LoginBloC.route);
   }
 }

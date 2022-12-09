@@ -17,6 +17,7 @@ class CategoryInjector extends Injector {
       () => CategoryListBloC(
         repository: find(),
       ),
+      fenix: true,
     );
 
     lazyPut(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:task_manager/task_manager.dart';
 
 class RootPage extends ScreenView<RootBloC> {
@@ -12,7 +13,10 @@ class RootPage extends ScreenView<RootBloC> {
           child: StreamBuilder<String?>(
             stream: bloc.streamOf<String?>(),
             builder: (_, snapshot) {
-              return const CircularProgressIndicator();
+              return Lottie.asset(
+                'assets/json/loading.json',
+                height: 250.0,
+              );
             },
           ),
         ),

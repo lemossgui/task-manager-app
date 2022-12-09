@@ -24,6 +24,13 @@ class TaskListPage extends ScreenView<TaskListBloC> {
           ),
         ],
       ),
+      body: _buildTasks(context),
+    );
+  }
+
+  Widget _buildTasks(BuildContext context) {
+    return const EmptyListWidget(
+      message: 'Nenhuma tarefa cadastrada',
     );
   }
 }
