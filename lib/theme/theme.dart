@@ -11,6 +11,11 @@ ThemeData defaultTheme = ThemeData(
   errorColor: errorColor,
   focusColor: secondaryColor,
   bottomAppBarColor: secondaryColor,
+  splashColor: Colors.transparent,
+  highlightColor: Colors.transparent,
+  colorScheme: ThemeData().colorScheme.copyWith(
+        primary: primaryColor,
+      ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(primaryColor),
@@ -20,20 +25,13 @@ ThemeData defaultTheme = ThemeData(
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: primaryColor,
   ),
-  inputDecorationTheme: const InputDecorationTheme(
-    focusedBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: secondaryColor,
-        width: 2.0,
-      ),
-    ),
-  ),
   appBarTheme: AppBarTheme(
     backgroundColor: backgroundColor,
+    titleSpacing: 0.0,
     elevation: 0.0,
-    titleTextStyle: headline2.bold.copyWith(color: primaryColor),
+    titleTextStyle: headline2.bold.copyWith(color: primaryTextColor),
     iconTheme: const IconThemeData(
-      color: secondaryColor,
+      color: primaryTextColor,
     ),
     centerTitle: false,
   ),

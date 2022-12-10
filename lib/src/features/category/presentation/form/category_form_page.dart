@@ -6,48 +6,60 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: bloc.streamOf<bool>(key: CategoryFormKey.isEditing),
-      builder: (_, snapshot) {
-        final isEditing = snapshot.data ?? false;
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Categoria'),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 16.0,
-                ),
-                child: MyTextButton(
-                  onPressed: () => isEditing
-                      ? bloc.dispatchEvent(UpdateCategory())
-                      : bloc.dispatchEvent(SaveCategory()),
-                  label: 'Salvar',
-                ),
-              ),
-            ],
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: _buildForm(context),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      title: const Text('Categoria'),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 10.0,
+            horizontal: 16.0,
           ),
-          body: SingleChildScrollView(
-            padding: getBasePadding(context),
-            child: Column(
-              children: [
-                StreamTextField(
-                  stream: bloc.streamOf<String?>(
-                    key: CategoryFormKey.description,
-                  ),
-                  onChanged: (value) => bloc.dispatch<String?>(
-                    value,
-                    key: CategoryFormKey.description,
-                  ),
-                  hintText: 'Descrição',
-                ),
-                _buildColor(),
-              ],
-            ),
+          child: StreamBuilder<bool>(
+            stream: bloc.streamOf<bool>(key: CategoryFormKey.isEditing),
+            builder: (_, snapshot) {
+              final isEditing = snapshot.data ?? false;
+              return MyTextButton(
+                onPressed: () => isEditing
+                    ? bloc.dispatchEvent(UpdateCategory())
+                    : bloc.dispatchEvent(SaveCategory()),
+                label: 'Salvar',
+              );
+            },
           ),
-        );
-      },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildForm(BuildContext context) {
+    return SingleChildScrollView(
+      padding: getBasePadding(context),
+      child: Column(
+        children: [
+          _buildDescription(),
+          _buildColor(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDescription() {
+    return StreamTextField(
+      stream: bloc.streamOf<String?>(
+        key: CategoryFormKey.description,
+      ),
+      onChanged: (value) => bloc.dispatch<String?>(
+        value,
+        key: CategoryFormKey.description,
+      ),
+      hintText: 'Descrição',
     );
   }
 
@@ -56,36 +68,32 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
       padding: const EdgeInsets.only(top: 16.0),
       child: StreamBuilder(
         stream: bloc.streamOf<String?>(
-          key: CategoryFormKey.color,
+          key: CategoryFormKey.colorKey,
         ),
         builder: (_, snapshot) {
           final hasError = snapshot.hasError;
           final hasColor = snapshot.hasData;
-          final color = snapshot.data;
+          final colorKey = snapshot.data;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 16.0,
+                  vertical: 8.0,
                   horizontal: 16.0,
                 ),
                 decoration: BoxDecoration(
-                  color: backgroundColorLight,
+                  color: backgroundColor,
                   borderRadius: BorderRadius.circular(16.0),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.3),
                       spreadRadius: 1,
                       blurRadius: 5,
-                      offset: const Offset(0, 2), // changes position of shadow
+                      offset: const Offset(0, 2),
                     ),
                   ],
-                  border: hasError
-                      ? Border.all(
-                          color: errorColor,
-                        )
-                      : null,
+                  border: hasError ? Border.all(color: errorColor) : null,
                 ),
                 child: Row(
                   children: [
@@ -96,7 +104,7 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
                               height: 40.0,
                               width: 8.0,
                               decoration: BoxDecoration(
-                                color: getCategoryColorValue(color),
+                                color: getCategoryColor(colorKey),
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                             ),
@@ -114,7 +122,9 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
                             ),
                           ),
                           Text(
-                            hasColor ? getCategoryColorDescription(color) : '-',
+                            hasColor
+                                ? getCategoryColorDescription(colorKey)
+                                : '-',
                             style: text.bold,
                           ),
                         ],
@@ -127,7 +137,8 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
                         );
                       },
                       label: hasColor ? 'Alterar' : 'Definir',
-                      backgroundColor: primaryColor,
+                      backgroundColor: backgroundColorDark,
+                      textColor: primaryTextColor,
                     )
                   ],
                 ),

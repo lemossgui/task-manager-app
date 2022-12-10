@@ -4,7 +4,7 @@ enum CategoryFormKey {
   isEditing,
   id,
   description,
-  color,
+  colorKey,
 }
 
 class CategoryFormBloC extends BloC<CategoryFormEvent>
@@ -19,7 +19,7 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
 
   int get _id => map[CategoryFormKey.id] ?? 0;
   String? get _description => map[CategoryFormKey.description];
-  String? get _color => map[CategoryFormKey.color];
+  String? get _colorKey => map[CategoryFormKey.colorKey];
 
   void _dispatchId(int value) {
     dispatch<int>(value, key: CategoryFormKey.id);
@@ -29,15 +29,15 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
     dispatch<String?>(value, key: CategoryFormKey.description);
   }
 
-  void _dispatchColor(String? value) {
-    dispatch<String?>(value, key: CategoryFormKey.color);
+  void _dispatchColorKey(String? value) {
+    dispatch<String?>(value, key: CategoryFormKey.colorKey);
   }
 
   @override
-  void onReady() {
+  void onInit() {
     _setupRequiredFields();
     _fillForm();
-    super.onReady();
+    super.onInit();
   }
 
   void _setupRequiredFields() {
@@ -47,7 +47,7 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
     );
     addTransformOn<String?, String?>(
       requiredStringStreamValidator(),
-      key: CategoryFormKey.color,
+      key: CategoryFormKey.colorKey,
     );
   }
 
@@ -60,7 +60,7 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
     if (isEditing) {
       _dispatchId(category.id);
       _dispatchDescription(category.description);
-      _dispatchColor(category.color);
+      _dispatchColorKey(category.colorKey);
     }
   }
 
@@ -76,22 +76,22 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
   }
 
   void _navigateToSelectColor() async {
-    final color = await toNamed(
+    final colorKey = await toNamed(
       SelectColorBloC.route,
-      arguments: _color,
+      arguments: _colorKey,
     );
 
-    if (color != null) {
-      dispatch<String?>(color, key: CategoryFormKey.color);
+    if (colorKey != null) {
+      dispatch<String?>(colorKey, key: CategoryFormKey.colorKey);
     }
   }
 
   bool get _modelIsValid {
-    final isValid = _description.hasValue && _color.hasValue;
+    final isValid = _description.hasValue && _colorKey.hasValue;
 
     if (!isValid) {
       _dispatchDescription(_description);
-      _dispatchColor(_color);
+      _dispatchColorKey(_colorKey);
       showError('Preencha todos os campos');
     }
 
@@ -102,7 +102,7 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
     return CategoryModel(
       id: _id,
       description: _description!,
-      color: _color!,
+      colorKey: _colorKey!,
     );
   }
 

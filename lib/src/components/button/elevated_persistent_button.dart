@@ -32,8 +32,14 @@ class ElevatedPersistentButton extends StatelessWidget {
             snapshot.data == null || snapshot.data == PersistingState.idle;
         return ElevatedButton(
           style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(color ?? primaryColor),
+            backgroundColor: MaterialStateProperty.all<Color>(
+              color ?? primaryColor,
+            ),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
           ),
           onPressed: !isIdle ? null : onPressed,
           child: _buildButtonContent(streamContext, state),
@@ -47,6 +53,9 @@ class ElevatedPersistentButton extends StatelessWidget {
       height: 48.0,
       width: double.infinity,
       alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
       child: state == null
           ? _buildText()
           : state.isError
@@ -66,7 +75,9 @@ class ElevatedPersistentButton extends StatelessWidget {
   Widget _buildText() {
     return Text(
       text,
-      style: subtitle,
+      style: subtitle.copyWith(
+        color: secondaryTextColor,
+      ),
     );
   }
 }

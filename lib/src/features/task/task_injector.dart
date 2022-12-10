@@ -5,6 +5,7 @@ class TaskInjector extends Injector {
   void dependencies() {
     lazyPut(
       () => TaskListBloC(),
+      fenix: true,
     );
 
     lazyPut(
@@ -12,6 +13,7 @@ class TaskInjector extends Injector {
         categoryRepository: find(),
         priorityRepository: find(),
       ),
+      fenix: true,
     );
   }
 }

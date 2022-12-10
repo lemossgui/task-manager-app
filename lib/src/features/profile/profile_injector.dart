@@ -7,6 +7,7 @@ class ProfileInjector extends Injector {
       () => ProfileBloC(
         sessionRepository: find(),
       ),
+      fenix: true,
     );
   }
 }

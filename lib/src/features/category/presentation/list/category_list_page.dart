@@ -13,22 +13,16 @@ class CategoryListPage extends ScreenView<CategoryListBloC> {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: const Text('Categorias'),
+    return MyAppBar(
+      title: 'Categorias',
       actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 10.0,
-            horizontal: 16.0,
-          ),
-          child: MyTextButton(
-            onPressed: () {
-              bloc.dispatchEvent(
-                NavigateToCategoryForm(),
-              );
-            },
-            label: 'Adicionar',
-          ),
+        MyTextButton(
+          onPressed: () {
+            bloc.dispatchEvent(
+              NavigateToCategoryForm(),
+            );
+          },
+          label: 'Adicionar',
         ),
       ],
     );
@@ -47,7 +41,7 @@ class CategoryListPage extends ScreenView<CategoryListBloC> {
           );
         } else if (snapshot.hasData && list.isEmpty) {
           return const EmptyListWidget(
-            message: 'Nenhuma categoria cadastrada',
+            message: 'Você não possui categorias cadastradas.',
           );
         } else {
           return SingleChildScrollView(
@@ -69,7 +63,7 @@ class CategoryListPage extends ScreenView<CategoryListBloC> {
             padding: const EdgeInsets.only(right: 16.0),
             child: Container(
               decoration: BoxDecoration(
-                color: getCategoryColorValue(category.color),
+                color: category.color,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               height: 40.0,
@@ -88,7 +82,7 @@ class CategoryListPage extends ScreenView<CategoryListBloC> {
                   ),
                 ),
                 Text(
-                  getCategoryColorDescription(category.color),
+                  category.colorDescription,
                   style: text,
                 ),
               ],

@@ -38,8 +38,18 @@ class TaskFormBloC extends BloC<TaskFormEvent> {
     result.map(_onLoadAllCategoriesSuccess).mapError(showError);
   }
 
-  void _onLoadAllCategoriesSuccess(List<CategoryModel> list) {
-    dispatch<List<CategoryModel>>(list, key: TaskFormKey.categories);
+  void _onLoadAllCategoriesSuccess(List<CategoryModel> list) async {
+    if (list.isEmpty) {
+      await dialog(
+        const InfoDialog(
+          message: 'Você precisa ter ao menos uma categoria cadastrada.'
+              ' Retorne à tela de categorias e cadastre uma para prosseguir.',
+        ),
+      );
+      pop();
+    } else {
+      dispatch<List<CategoryModel>>(list, key: TaskFormKey.categories);
+    }
   }
 
   Future<void> _loadAllPriorities() async {

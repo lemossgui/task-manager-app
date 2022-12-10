@@ -34,40 +34,48 @@ class LoginPage extends ScreenView<LoginBloC> {
     return const Image(
       height: 200.0,
       width: 200.0,
-      image: Svg('assets/images/task_list.svg'),
+      image: Svg('assets/images/login.svg'),
     );
   }
 
   Widget _buildEmailField() {
-    return StreamTextField(
-      stream: bloc.streamOf<String?>(
-        key: LoginKey.email,
+    return Padding(
+      padding: const EdgeInsets.only(top: 32.0),
+      child: StreamTextField(
+        stream: bloc.streamOf<String?>(
+          key: LoginKey.email,
+        ),
+        onChanged: (value) => bloc.dispatch<String?>(
+          value,
+          key: LoginKey.email,
+        ),
+        hintText: 'E-mail',
+        keyboardType: TextInputType.emailAddress,
       ),
-      onChanged: (value) => bloc.dispatch<String?>(
-        value,
-        key: LoginKey.email,
-      ),
-      hintText: 'E-mail',
-      keyboardType: TextInputType.emailAddress,
     );
   }
 
   Widget _buildPasswordField() {
-    return StreamBuilder<bool>(
-        stream: null,
-        builder: (context, snapshot) {
-          return StreamTextField(
-            stream: bloc.streamOf<String?>(
-              key: LoginKey.password,
-            ),
-            onChanged: (value) => bloc.dispatch<String?>(
-              value,
-              key: LoginKey.password,
-            ),
-            hintText: 'Senha',
-            obscureText: true,
-          );
-        });
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: StreamPasswordField(
+        textStream: bloc.streamOf<String?>(
+          key: LoginKey.password,
+        ),
+        onTextChanged: (value) => bloc.dispatch<String?>(
+          value,
+          key: LoginKey.password,
+        ),
+        visibilityStream: bloc.streamOf<bool?>(
+          key: LoginKey.isPasswordVisible,
+        ),
+        onVisibilityChanged: (value) => bloc.dispatch<bool?>(
+          value,
+          key: LoginKey.isPasswordVisible,
+        ),
+        hintText: 'Senha',
+      ),
+    );
   }
 
   Widget _buildAccessButton() {
@@ -90,15 +98,25 @@ class LoginPage extends ScreenView<LoginBloC> {
           backgroundColor: MaterialStateProperty.all<Color>(
             secondaryColor,
           ),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+          ),
         ),
-        onPressed: () => bloc.dispatchEvent(NavigateToRegister()),
+        onPressed: () => bloc.dispatchEvent(NavigateToUserForm()),
         child: Container(
           height: 48.0,
           width: double.infinity,
           alignment: Alignment.center,
-          child: const Text(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Text(
             'Cadastro',
-            style: subtitle,
+            style: subtitle.copyWith(
+              color: secondaryTextColor,
+            ),
           ),
         ),
       ),

@@ -23,8 +23,9 @@ dependencies:
   flutter_svg_provider: ^1.0.3
   multiple_result: ^3.1.0
   shared_preferences: ^2.0.6
-  fancy_bottom_navigation: ^0.3.3
   lottie: ^2.0.0
+  circle_nav_bar: ^2.0.1+1
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:
@@ -34,8 +35,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/task_list.svg
+    - assets/images/login.svg
+    - assets/images/profile.svg
+    - assets/json/delete.json
     - assets/json/empty.json
+    - assets/json/info.json
     - assets/json/loading.json
   fonts:
     - family: Ubuntu

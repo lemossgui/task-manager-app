@@ -1,3 +1,4 @@
+import 'package:lottie/lottie.dart';
 import 'package:task_manager/task_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,25 +22,9 @@ class CategoryDeleteDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            height: 64.0,
-            width: 64.0,
-            decoration: BoxDecoration(
-              color: backgroundColorLight,
-              borderRadius: BorderRadius.circular(48.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2), // changes position of shadow
-                ),
-              ],
-            ),
-            child: const Icon(
-              Icons.delete,
-              color: Colors.redAccent,
-            ),
+          Lottie.asset(
+            'assets/json/delete.json',
+            height: 48.0,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -53,9 +38,7 @@ class CategoryDeleteDialog extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     category.description,
-                    style: subtitle.bold.copyWith(
-                      color: primaryColor,
-                    ),
+                    style: subtitle.bold,
                   ),
                 ),
               ],
@@ -91,9 +74,7 @@ class CategoryDeleteDialog extends StatelessWidget {
                     ),
                     child: Text(
                       'Fechar',
-                      style: text.semiBold.copyWith(
-                        color: primaryColor,
-                      ),
+                      style: text.semiBold,
                     ),
                   ),
                 ),

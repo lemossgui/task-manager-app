@@ -5,11 +5,18 @@ class CategoryInjector extends Injector {
   void dependencies() {
     put<CategoryStore>(
       CategoryRemoteImpl(),
+      tag: 'remote',
+    );
+
+    put<CategoryStore>(
+      CategoryLocalImpl(),
+      tag: 'local',
     );
 
     put<CategoryRepository>(
       CategoryRepositoryImpl(
-        remote: find(),
+        remote: find(tag: 'remote'),
+        local: find(tag: 'local'),
       ),
     );
 
@@ -24,6 +31,7 @@ class CategoryInjector extends Injector {
       () => CategoryFormBloC(
         repository: find(),
       ),
+      fenix: true,
     );
   }
 }

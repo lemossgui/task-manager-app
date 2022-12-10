@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:task_manager/task_manager.dart';
 
 enum LoginKey {
   email,
   password,
+  isPasswordVisible,
 }
 
 class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
@@ -17,11 +20,11 @@ class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
   });
 
   @override
-  void onReady() {
+  void onInit() {
     _dispatchEmail('guilherme.lemos@rede.ulbra.br');
     _dispatchPassword('123456');
     _setupRequiredFields();
-    super.onReady();
+    super.onInit();
   }
 
   String? get _email => map[LoginKey.email];
@@ -50,8 +53,8 @@ class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
   void handleEvent(LoginEvent event) {
     if (event is DoLogin) {
       _doLogin();
-    } else if (event is NavigateToRegister) {
-      _navigateToRegister();
+    } else if (event is NavigateToUserForm) {
+      _navigateToUserForm();
     }
   }
 
@@ -92,10 +95,12 @@ class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
 
   Future<void> saveSession(String token) async {
     SessionModel session = SessionModel(token: token);
-    return sessionRepository.save(session);
+    final result = await sessionRepository.save(session);
+    result.map(log).mapError(showError);
+    return;
   }
 
-  void _navigateToRegister() {
-    // toNamed(UserFormBloC.route);
+  void _navigateToUserForm() {
+    toNamed(UserFormBloC.route);
   }
 }

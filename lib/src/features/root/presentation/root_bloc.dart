@@ -10,13 +10,13 @@ class RootBloC extends BloC<RootEvent> {
   });
 
   @override
-  void onReady() {
-    _checkSession();
+  void onReady() async {
+    await _checkSession();
     super.onReady();
   }
 
-  void _checkSession() async {
-    await Future.delayed(const Duration(seconds: 5));
+  Future<void> _checkSession() async {
+    await Future.delayed(const Duration(seconds: 3));
     final isLogged = await sessionRepository.isLogged;
     if (isLogged) {
       popAndToNamed(HomeBloC.route);

@@ -5,6 +5,11 @@ class CategoryRemoteImpl extends ConnectorAuth implements CategoryStore {
   final _endpoint = '/category';
 
   @override
+  AsyncResult<String, String> saveAll(List<CategoryModel> list) {
+    throw UnimplementedError('Não implementado remotamente');
+  }
+
+  @override
   AsyncResult<int, String> save(CategoryModel model) async {
     try {
       return post(_endpoint, model.toMap())

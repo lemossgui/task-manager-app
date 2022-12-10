@@ -1,16 +1,5 @@
+import 'package:task_manager/task_manager.dart';
 import 'package:flutter/material.dart';
-
-class CategoryColorItem {
-  final String key;
-  final String description;
-  final Color? value;
-
-  CategoryColorItem({
-    required this.key,
-    required this.description,
-    required this.value,
-  });
-}
 
 final categoryColors = [
   CategoryColorItem(
@@ -75,7 +64,7 @@ final categoryColors = [
   ),
 ];
 
-Color getCategoryColorValue(String? key) {
+Color getCategoryColor(String? key) {
   final color = categoryColors.firstWhere((item) => item.key == key).value;
   return color ?? Colors.transparent;
 }

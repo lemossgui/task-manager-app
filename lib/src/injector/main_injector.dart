@@ -7,6 +7,7 @@ class MainInjector extends Injector {
     SessionInjector().dependencies();
     RootInjector().dependencies();
     LoginInjector().dependencies();
+    UserInjector().dependencies();
     HomeInjector().dependencies();
     ProfileInjector().dependencies();
     CategoryInjector().dependencies();

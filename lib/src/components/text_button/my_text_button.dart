@@ -25,8 +25,9 @@ class MyTextButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.0),
           ),
         ),
-        backgroundColor: MaterialStateProperty.all(
-          backgroundColor ?? secondaryColor,
+        backgroundColor: MaterialStateProperty.all(backgroundColor),
+        overlayColor: MaterialStateProperty.all(
+          Colors.white.withOpacity(0.3),
         ),
         textStyle: MaterialStateProperty.all(text),
       ),

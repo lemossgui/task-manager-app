@@ -1,16 +1,14 @@
-import 'dart:convert';
-
 import 'package:task_manager/task_manager.dart';
 
 class CategoryModel extends Searchable {
   final int id;
   final String description;
-  final String color;
+  final String colorKey;
 
   CategoryModel({
     required this.id,
     required this.description,
-    required this.color,
+    required this.colorKey,
   });
 
   Map<String, dynamic> toMap() {
@@ -18,7 +16,7 @@ class CategoryModel extends Searchable {
 
     result.addAll({'id': id});
     result.addAll({'description': description});
-    result.addAll({'color': color});
+    result.addAll({'colorKey': colorKey});
 
     return result;
   }
@@ -27,7 +25,7 @@ class CategoryModel extends Searchable {
     return CategoryModel(
       id: map['id']?.toInt() ?? 0,
       description: map['description'] ?? '',
-      color: map['color'] ?? '',
+      colorKey: map['colorKey'] ?? '',
     );
   }
 

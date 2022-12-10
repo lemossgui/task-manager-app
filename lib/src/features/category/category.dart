@@ -1,7 +1,11 @@
+export 'data/datasources/category_local_impl.dart';
 export 'data/datasources/category_remote_impl.dart';
 export 'data/datasources/category_store.dart';
 export 'data/repositories/category_repository_impl.dart';
 export 'data/repositories/category_repository.dart';
+export 'domain/category_color_item.dart';
+export 'domain/category_color_resolver.dart';
+export 'domain/category_functions.dart';
 export 'domain/category_model.dart';
 export 'presentation/dialog/category_delete_dialog.dart';
 export 'presentation/form/category_form_bloc.dart';

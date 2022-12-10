@@ -7,3 +7,4 @@ export 'root/root.dart';
 export 'select_color/select_color.dart';
 export 'session/session.dart';
 export 'task/task.dart';
+export 'user/user.dart';

@@ -16,7 +16,18 @@ List<Screen> routes = [
   Screen(
     name: LoginBloC.route,
     page: () => const LoginPage(),
+    transition: _defaultTransition,
+    transitionDuration: _defaultTransitionDuration,
+    curve: _defaultCurve,
     injector: LoginInjector(),
+  ),
+  Screen(
+    name: UserFormBloC.route,
+    page: () => const UserFormPage(),
+    transition: _defaultTransition,
+    transitionDuration: _defaultTransitionDuration,
+    curve: _defaultCurve,
+    injector: UserInjector(),
   ),
   Screen(
     name: HomeBloC.route,

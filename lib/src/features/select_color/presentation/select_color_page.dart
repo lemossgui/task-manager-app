@@ -38,7 +38,7 @@ class SelectColorPage extends ScreenView<SelectColorBloC> {
                             padding: const EdgeInsets.only(right: 16.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                color: getCategoryColorValue(item.key),
+                                color: getCategoryColor(item.key),
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
                               height: 40.0,

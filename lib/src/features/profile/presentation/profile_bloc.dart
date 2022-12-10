@@ -1,5 +1,10 @@
 import 'package:task_manager/task_manager.dart';
 
+enum ProfileKey {
+  darkMode,
+  receiveNotifications,
+}
+
 class ProfileBloC extends BloC<ProfileEvent> {
   static const route = '/profile';
 

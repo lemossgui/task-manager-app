@@ -32,7 +32,8 @@ class TaskFormPage extends ScreenView<TaskFormBloC> {
           ),
           body: SingleChildScrollView(
             padding: getBasePadding(context),
-            child: Column(
+            child: SeparatedColumn(
+              separator: const SizedBox(height: 16.0),
               children: [
                 _buildTitle(),
                 _buildDescription(),
@@ -44,17 +45,6 @@ class TaskFormPage extends ScreenView<TaskFormBloC> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildCard() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: MyCard(
-        content: Container(
-          padding: const EdgeInsets.all(16.0),
-        ),
-      ),
     );
   }
 
@@ -72,99 +62,98 @@ class TaskFormPage extends ScreenView<TaskFormBloC> {
   }
 
   Widget _buildDescription() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: StreamTextField(
-        stream: bloc.streamOf<String?>(
-          key: TaskFormKey.description,
-        ),
-        onChanged: (value) => bloc.dispatch<String?>(
-          value,
-          key: TaskFormKey.description,
-        ),
-        hintText: 'Descrição',
+    return StreamTextField(
+      stream: bloc.streamOf<String?>(
+        key: TaskFormKey.description,
       ),
+      onChanged: (value) => bloc.dispatch<String?>(
+        value,
+        key: TaskFormKey.description,
+      ),
+      hintText: 'Descrição',
     );
   }
 
   Widget _buildCategoryDropdown() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: StreamDropdownButtonFormField<CategoryModel>(
-        hintText: 'Categoria',
-        streamItems: bloc.streamOf<List<CategoryModel>>(
-          key: TaskFormKey.categories,
-        ),
-        streamSelected: bloc.streamOf<CategoryModel?>(
-          key: TaskFormKey.category,
-        ),
-        onSelected: (value) {
-          bloc.dispatch<CategoryModel?>(
-            value,
-            key: TaskFormKey.category,
-          );
-        },
-        requiredField: true,
-        buildItem: (item) {
-          return Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 4.0, right: 20.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: getCategoryColorValue(item.color),
-                    borderRadius: BorderRadius.circular(2.0),
-                  ),
-                  height: 16.0,
-                  width: 16.0,
-                ),
-              ),
-              Text(
-                item.description,
-                style: text.semiBold,
-              ),
-            ],
-          );
-        },
+    return StreamDropdownButtonFormField<CategoryModel>(
+      hintText: 'Categoria',
+      streamItems: bloc.streamOf<List<CategoryModel>>(
+        key: TaskFormKey.categories,
       ),
+      streamSelected: bloc.streamOf<CategoryModel?>(
+        key: TaskFormKey.category,
+      ),
+      onSelected: (value) {
+        bloc.dispatch<CategoryModel?>(
+          value,
+          key: TaskFormKey.category,
+        );
+      },
+      requiredField: true,
+      buildItem: (item) {
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 4.0, right: 20.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: item.color,
+                  borderRadius: BorderRadius.circular(2.0),
+                ),
+                height: 16.0,
+                width: 16.0,
+              ),
+            ),
+            Text(
+              item.description,
+              style: text.semiBold,
+            ),
+          ],
+        );
+      },
     );
   }
 
   Widget _buildPriorityDropdown() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: StreamDropdownButtonFormField<PriorityModel>(
-        hintText: 'Prioridade',
-        streamItems: bloc.streamOf<List<PriorityModel>>(
-          key: TaskFormKey.priorities,
-        ),
-        streamSelected: bloc.streamOf<PriorityModel?>(
+    return StreamDropdownButtonFormField<PriorityModel>(
+      hintText: 'Prioridade',
+      streamItems: bloc.streamOf<List<PriorityModel>>(
+        key: TaskFormKey.priorities,
+      ),
+      streamSelected: bloc.streamOf<PriorityModel?>(
+        key: TaskFormKey.priority,
+      ),
+      onSelected: (value) {
+        bloc.dispatch<PriorityModel?>(
+          value,
           key: TaskFormKey.priority,
-        ),
-        onSelected: (value) {
-          bloc.dispatch<PriorityModel?>(
-            value,
-            key: TaskFormKey.priority,
-          );
-        },
-        requiredField: true,
-        buildItem: (item) {
-          return Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: Icon(
-                  Icons.upgrade,
-                  color: getPriorityColorValue(item.key),
-                ),
+        );
+      },
+      requiredField: true,
+      buildItem: (item) {
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Icon(
+                Icons.upgrade,
+                color: item.color,
               ),
-              Text(
-                item.description,
-                style: text.semiBold,
-              ),
-            ],
-          );
-        },
+            ),
+            Text(
+              item.description,
+              style: text.semiBold,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildCard() {
+    return MyCard(
+      content: Container(
+        padding: const EdgeInsets.all(16.0),
       ),
     );
   }

@@ -18,6 +18,7 @@ class LoginInjector extends Injector {
         repository: find(),
         sessionRepository: find(),
       ),
+      fenix: true,
     );
   }
 }
