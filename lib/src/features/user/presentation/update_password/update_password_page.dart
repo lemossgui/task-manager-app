@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:task_manager/task_manager.dart';
+import 'package:flutter/material.dart';
 
-class UserFormPage extends ScreenView<UserFormBloC> {
-  const UserFormPage({super.key});
+class UpdatePasswordPage extends ScreenView<UpdatePasswordBloC> {
+  const UpdatePasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Usuário'),
+        title: const Text('Senha'),
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -16,7 +16,7 @@ class UserFormPage extends ScreenView<UserFormBloC> {
               horizontal: 16.0,
             ),
             child: MyTextButton(
-              onPressed: () => bloc.dispatchEvent(SaveUser()),
+              onPressed: () => bloc.dispatchEvent(UpdatePassword()),
               label: 'Salvar',
             ),
           )
@@ -26,86 +26,75 @@ class UserFormPage extends ScreenView<UserFormBloC> {
         padding: getBasePadding(context),
         child: Column(
           children: [
-            _buildName(),
-            _buildEmail(),
-            _buildPassword(),
-            _buildPasswordConfirmation(),
+            _buildOldPassword(),
+            _buildNewPassword(),
+            _buildNewPasswordConfirmation(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildName() {
-    return StreamTextField(
-      stream: bloc.streamOf<String?>(
-        key: UserFormKey.name,
+  Widget _buildOldPassword() {
+    return StreamPasswordField(
+      textStream: bloc.streamOf<String?>(
+        key: UpdatePasswordKey.oldPassword,
       ),
-      onChanged: (value) => bloc.dispatch<String?>(
+      onTextChanged: (value) => bloc.dispatch<String?>(
         value,
-        key: UserFormKey.name,
+        key: UpdatePasswordKey.oldPassword,
       ),
-      hintText: 'Nome Completo',
+      visibilityStream: bloc.streamOf<bool?>(
+        key: UpdatePasswordKey.oldPasswordVisibility,
+      ),
+      onVisibilityChanged: (value) => bloc.dispatch<bool?>(
+        value,
+        key: UpdatePasswordKey.oldPasswordVisibility,
+      ),
+      hintText: 'Senha Antiga',
     );
   }
 
-  Widget _buildEmail() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: StreamTextField(
-        stream: bloc.streamOf<String?>(
-          key: UserFormKey.email,
-        ),
-        onChanged: (value) => bloc.dispatch<String?>(
-          value,
-          key: UserFormKey.email,
-        ),
-        hintText: 'E-mail',
-        keyboardType: TextInputType.emailAddress,
-      ),
-    );
-  }
-
-  Widget _buildPassword() {
+  Widget _buildNewPassword() {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: StreamPasswordField(
         textStream: bloc.streamOf<String?>(
-          key: UserFormKey.password,
+          key: UpdatePasswordKey.newPassword,
         ),
         onTextChanged: (value) => bloc.dispatch<String?>(
           value,
-          key: UserFormKey.password,
+          key: UpdatePasswordKey.newPassword,
         ),
         visibilityStream: bloc.streamOf<bool?>(
-          key: UserFormKey.passwordVisibility,
+          key: UpdatePasswordKey.newPasswordVisibility,
         ),
         onVisibilityChanged: (value) => bloc.dispatch<bool?>(
           value,
-          key: UserFormKey.passwordVisibility,
+          key: UpdatePasswordKey.newPasswordVisibility,
         ),
-        hintText: 'Senha',
+        hintText: 'Nova Senha',
       ),
     );
   }
 
-  Widget _buildPasswordConfirmation() {
+  Widget _buildNewPasswordConfirmation() {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: StreamPasswordField(
         textStream: bloc.streamOf<String?>(
-          key: UserFormKey.passwordConfirmation,
+          key: UpdatePasswordKey.newPasswordConfirmation,
         ),
         onTextChanged: (value) => bloc.dispatch<String?>(
           value,
-          key: UserFormKey.passwordConfirmation,
+          key: UpdatePasswordKey.newPasswordConfirmation,
         ),
         visibilityStream: bloc.streamOf<bool?>(
-          key: UserFormKey.passwordConfirmationVisibility,
+          key: UpdatePasswordKey.newPasswordConfirmationVisibility,
         ),
         onVisibilityChanged: (value) => bloc.dispatch<bool?>(
           value,
-          key: UserFormKey.passwordConfirmationVisibility,
+          key: UpdatePasswordKey.newPasswordConfirmationVisibility,
         ),
         hintText: 'Confirmação de Senha',
       ),

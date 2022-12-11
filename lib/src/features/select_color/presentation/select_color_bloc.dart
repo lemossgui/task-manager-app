@@ -22,17 +22,21 @@ class SelectColorBloC extends BloC<SelectColorEvent> {
   }
 
   Future<void> _dispatchColors() async {
-    final result = await categoryRepository.findAll();
-    result.map((categories) {
-      final colorsInUse = categories.map((item) => item.colorKey).toList();
-      final availableColors = categoryColors
-          .where((item) => !colorsInUse.contains(item.key))
-          .toList();
-      dispatch<List<CategoryColorItem>>(
-        availableColors,
-        key: SelectColorKey.list,
-      );
-    }).mapError(showError);
+    handleListing(
+      action: () async {
+        final result = await categoryRepository.findAll();
+        result.map((categories) {
+          final colorsInUse = categories.map((item) => item.colorKey).toList();
+          final availableColors = categoryColors
+              .where((item) => !colorsInUse.contains(item.key))
+              .toList();
+          dispatch<List<CategoryColorItem>>(
+            availableColors,
+            key: SelectColorKey.list,
+          );
+        }).mapError(showError);
+      },
+    );
   }
 
   void _dispatchSelectedColor() {

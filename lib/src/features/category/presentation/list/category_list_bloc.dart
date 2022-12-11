@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:task_manager/task_manager.dart';
 
 enum CategoryListKey {
@@ -21,8 +19,12 @@ class CategoryListBloC extends BloC<CategoryListEvent> {
   }
 
   Future<void> _loadAllCategories() async {
-    final result = await repository.findAll();
-    result.map(_onLoadAllSuccess).mapError(showError);
+    handleListing(
+      action: () async {
+        final result = await repository.findAll();
+        result.map(_onLoadAllSuccess).mapError(showError);
+      },
+    );
   }
 
   void _onLoadAllSuccess(List<CategoryModel> list) {
@@ -54,9 +56,10 @@ class CategoryListBloC extends BloC<CategoryListEvent> {
       CategoryDeleteDialog(category: category),
     );
     if (deleted == true) {
-      await doPersist(
-        action: () async {
-          final result = await repository.deleteById(category.id);
+      await Future.delayed(const Duration(milliseconds: 200));
+      showLoadingDialog(
+        action: repository.deleteById(category.id),
+        onComplete: (result) {
           result.map((_) {
             showSuccess('Categoria excluída com sucesso!');
             _loadAllCategories();

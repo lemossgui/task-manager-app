@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:task_manager/task_manager.dart';
+import 'package:flutter/material.dart';
 
 class ProfilePage extends ScreenView<ProfileBloC> {
   const ProfilePage({super.key});
@@ -28,17 +27,29 @@ class ProfilePage extends ScreenView<ProfileBloC> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-      padding: getBasePadding(context),
-      child: SeparatedColumn(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        separator: const SizedBox(height: 16.0),
-        children: [
-          _buildUserData(),
-          _buildSecurity(),
-          _buildPreferences(),
-        ],
-      ),
+    return StreamBuilder<UserModel>(
+      stream: bloc.streamOf<UserModel>(key: ProfileKey.user),
+      builder: (_, snapshot) {
+        final user = snapshot.data;
+        if (!snapshot.hasData) {
+          return const LoadingWidget(
+            message: 'Buscando informações do seu usuário',
+          );
+        } else {
+          return SingleChildScrollView(
+            padding: getBasePadding(context),
+            child: SeparatedColumn(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              separator: const SizedBox(height: 16.0),
+              children: [
+                _buildUserData(user),
+                _buildSecurity(),
+                _buildPreferences(),
+              ],
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -76,14 +87,14 @@ class ProfilePage extends ScreenView<ProfileBloC> {
     );
   }
 
-  Widget _buildUserData() {
+  Widget _buildUserData(UserModel? user) {
     return _buildCard(
       title: 'Informações do Usuário',
       content: SeparatedColumn(
         separator: const SizedBox(height: 4.0),
         children: [
-          _buildName(),
-          _buildEmail(),
+          _buildName(user?.name),
+          _buildEmail(user?.email),
         ],
       ),
       padding: const EdgeInsets.symmetric(
@@ -93,7 +104,7 @@ class ProfilePage extends ScreenView<ProfileBloC> {
     );
   }
 
-  Widget _buildName() {
+  Widget _buildName(String? name) {
     return Row(
       children: [
         Expanded(
@@ -107,7 +118,7 @@ class ProfilePage extends ScreenView<ProfileBloC> {
               Padding(
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Text(
-                  'Guilherme Lemos',
+                  name ?? '',
                   style: text,
                 ),
               ),
@@ -115,7 +126,9 @@ class ProfilePage extends ScreenView<ProfileBloC> {
           ),
         ),
         MyTextButton(
-          onPressed: () {},
+          onPressed: () {
+            bloc.dispatchEvent(NavigateToUpdateName());
+          },
           label: 'Alterar',
           backgroundColor: backgroundColorDark,
           textColor: primaryTextColor,
@@ -124,7 +137,7 @@ class ProfilePage extends ScreenView<ProfileBloC> {
     );
   }
 
-  Widget _buildEmail() {
+  Widget _buildEmail(String? email) {
     return Row(
       children: [
         Expanded(
@@ -138,7 +151,7 @@ class ProfilePage extends ScreenView<ProfileBloC> {
               Padding(
                 padding: const EdgeInsets.only(top: 4.0),
                 child: Text(
-                  'guilherme.lemos@rede.ulbra.br',
+                  email ?? '',
                   style: text,
                 ),
               ),
@@ -146,7 +159,9 @@ class ProfilePage extends ScreenView<ProfileBloC> {
           ),
         ),
         MyTextButton(
-          onPressed: () {},
+          onPressed: () {
+            bloc.dispatchEvent(NavigateToUpdateEmail());
+          },
           label: 'Alterar',
           backgroundColor: backgroundColorDark,
           textColor: primaryTextColor,
@@ -180,7 +195,9 @@ class ProfilePage extends ScreenView<ProfileBloC> {
           ),
         ),
         MyTextButton(
-          onPressed: () {},
+          onPressed: () {
+            bloc.dispatchEvent(NavigateToUpdatePassword());
+          },
           label: 'Alterar',
           backgroundColor: backgroundColorDark,
           textColor: primaryTextColor,
@@ -216,7 +233,7 @@ class ProfilePage extends ScreenView<ProfileBloC> {
             key: ProfileKey.darkMode,
           ),
           onChange: (value) {
-            bloc.dispatch<bool>(
+            bloc.dispatch<bool?>(
               value,
               key: ProfileKey.darkMode,
             );
@@ -239,12 +256,11 @@ class ProfilePage extends ScreenView<ProfileBloC> {
         ),
         MySwitch(
           stream: bloc.streamOf<bool>(
-            key: ProfileKey.receiveNotifications,
+            key: ProfileKey.notificationIsEnable,
           ),
           onChange: (value) {
-            bloc.dispatch<bool>(
-              value,
-              key: ProfileKey.receiveNotifications,
+            bloc.dispatchEvent(
+              UpdateReceivingNotification(isEnable: value),
             );
           },
           activeIcon: Icons.notifications_active_rounded,

@@ -21,12 +21,12 @@ class MySwitch extends StatelessWidget {
     return StreamBuilder<bool?>(
       stream: stream,
       builder: (_, snapshot) {
-        final receiveNotifications = snapshot.data ?? false;
+        final value = snapshot.data ?? false;
         return FlutterSwitch(
           height: 32.0,
           width: 64.0,
           toggleSize: 24.0,
-          value: receiveNotifications,
+          value: value,
           borderRadius: 48.0,
           padding: 2.0,
           activeToggleColor: backgroundColor,

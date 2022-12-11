@@ -1,12 +1,13 @@
-import 'dart:developer';
-
 import 'package:task_manager/task_manager.dart';
+import 'dart:developer';
 
 enum UserFormKey {
   name,
   email,
   password,
+  passwordVisibility,
   passwordConfirmation,
+  passwordConfirmationVisibility,
 }
 
 class UserFormBloC extends BloC<UserFormEvent>
@@ -122,28 +123,15 @@ class UserFormBloC extends BloC<UserFormEvent>
       return;
     }
 
-    await doPersist(
-      action: () async {
-        final result = await repository.save(_model);
-        result.map(_doLogin).mapError(showError);
+    showLoadingDialog(
+      action: repository.save(_model),
+      onComplete: (result) {
+        result.map(_handleSaveSuccess).mapError(showError);
       },
     );
   }
 
-  void _doLogin(void _) async {
-    await doPersist(
-      action: () async {
-        final credentials = CredentialsModel(
-          email: _email!,
-          password: _password!,
-        );
-        final result = await loginRepository.doLogin(credentials: credentials);
-        result.map(_handleLoginSuccess).mapError(showError);
-      },
-    );
-  }
-
-  void _handleLoginSuccess(String token) async {
+  void _handleSaveSuccess(String token) async {
     await saveSession(token);
     popAndToNamed(HomeBloC.route);
     showSuccess('Usuário cadastrado com sucesso!');

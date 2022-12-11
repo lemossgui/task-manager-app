@@ -21,5 +21,34 @@ class UserInjector extends Injector {
       ),
       fenix: true,
     );
+
+    lazyPut(
+      () => ProfileBloC(
+        userRepository: find(),
+        sessionRepository: find(),
+      ),
+      fenix: true,
+    );
+
+    lazyPut(
+      () => UpdateNameBloC(
+        repository: find(),
+      ),
+      fenix: true,
+    );
+
+    lazyPut(
+      () => UpdateEmailBloC(
+        repository: find(),
+      ),
+      fenix: true,
+    );
+
+    lazyPut(
+      () => UpdatePasswordBloC(
+        repository: find(),
+      ),
+      fenix: true,
+    );
   }
 }

@@ -9,7 +9,45 @@ class UserRepositoryImpl implements UserRepository {
   });
 
   @override
-  AsyncResult<int, String> save(UserModel model) {
+  AsyncResult<String, String> save(UserModel model) {
     return remote.save(model);
+  }
+
+  @override
+  AsyncResult<int, String> updateName(int id, String name) {
+    return remote.updateName(id, name);
+  }
+
+  @override
+  AsyncResult<int, String> updateEmail(int id, String email) {
+    return remote.updateEmail(id, email);
+  }
+
+  @override
+  AsyncResult<int, String> updatePassword(
+    int id,
+    String oldPassword,
+    String newPassword,
+    String newPasswordConfirmation,
+  ) {
+    return remote.updatePassword(
+      id,
+      oldPassword,
+      newPassword,
+      newPasswordConfirmation,
+    );
+  }
+
+  @override
+  AsyncResult<int, String> updateReceivingNotitication(
+    int id,
+    bool notificationIsEnable,
+  ) {
+    return remote.updateReceivingNotitication(id, notificationIsEnable);
+  }
+
+  @override
+  AsyncResult<UserModel, String> getLoggedUser() {
+    return remote.getLoggedUser();
   }
 }

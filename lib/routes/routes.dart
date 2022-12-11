@@ -40,7 +40,22 @@ List<Screen> routes = [
   Screen(
     name: ProfileBloC.route,
     page: () => const ProfilePage(),
-    injector: ProfileInjector(),
+    injector: UserInjector(),
+  ),
+  Screen(
+    name: UpdateNameBloC.route,
+    page: () => const UpdateNamePage(),
+    injector: UserInjector(),
+  ),
+  Screen(
+    name: UpdateEmailBloC.route,
+    page: () => const UpdateEmailPage(),
+    injector: UserInjector(),
+  ),
+  Screen(
+    name: UpdatePasswordBloC.route,
+    page: () => const UpdatePasswordPage(),
+    injector: UserInjector(),
   ),
   Screen(
     name: TaskListBloC.route,

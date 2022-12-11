@@ -1,3 +1,4 @@
+import 'package:multiple_result/multiple_result.dart';
 import 'package:task_manager/task_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,6 +33,7 @@ abstract class BloC<Event> extends GetxController
   }) async {
     try {
       dispatch<ScreenState>(LoadingState());
+      await Future.delayed(const Duration(milliseconds: 700));
       await action();
     } on Exception catch (_) {
       dispatch<ScreenState>(ErrorState());
@@ -42,21 +44,23 @@ abstract class BloC<Event> extends GetxController
     }
   }
 
-  Future<void> doPersist({
-    required Function action,
-    Function? onError,
-    Function? onFinish,
+  void showLoadingDialog<S, E>({
+    String? message,
+    required AsyncResult<S, E> action,
+    required Function(Result<S, E> result) onComplete,
   }) async {
-    try {
-      dispatch<PersistingState?>(PersistingState.loading);
-      await action();
-    } on Exception catch (_) {
-      dispatch<PersistingState?>(PersistingState.error);
-      onError?.call();
-    } finally {
-      dispatch<PersistingState?>(PersistingState.idle);
-      onFinish?.call();
-    }
+    Get.dialog(
+      LoadingDialog(message: message),
+      barrierDismissible: false,
+    );
+
+    final result = await action;
+
+    await Future.delayed(const Duration(milliseconds: 700));
+
+    pop();
+
+    onComplete(result);
   }
 
   @protected

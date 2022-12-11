@@ -1,3 +1,4 @@
+import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:task_manager/task_manager.dart';
 
@@ -13,7 +14,7 @@ class LoginRemoteImpl extends BaseConnector implements LoginStore {
       return post(_endpoint, body)
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.getResult());
-    } on Exception catch (_) {
+    } on GetHttpException catch (_) {
       return const Error('Falha ao realizar autenticação');
     }
   }

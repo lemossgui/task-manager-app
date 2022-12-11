@@ -3,6 +3,7 @@ export 'button/elevated_persistent_button.dart';
 export 'card/my_card.dart';
 export 'core/screen_view.dart';
 export 'dialog/info_dialog.dart';
+export 'dialog/loading_dialog.dart';
 export 'dropdown/stream_dropdown_button_form_field.dart';
 export 'empty_list/empty_list_widget.dart';
 export 'listing/separated_row.dart';

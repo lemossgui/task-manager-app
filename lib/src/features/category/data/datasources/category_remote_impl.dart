@@ -1,3 +1,4 @@
+import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:task_manager/task_manager.dart';
 
@@ -15,7 +16,7 @@ class CategoryRemoteImpl extends ConnectorAuth implements CategoryStore {
       return post(_endpoint, model.toMap())
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.getResult());
-    } on Exception catch (_) {
+    } on GetHttpException catch (_) {
       return const Error('Falha ao salvar a categoria');
     }
   }
@@ -33,7 +34,7 @@ class CategoryRemoteImpl extends ConnectorAuth implements CategoryStore {
       return put('$_endpoint/$id', model.toMap())
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.getResult());
-    } on Exception catch (_) {
+    } on GetHttpException catch (_) {
       return const Error('Falha ao atualizar a categoria');
     }
   }
@@ -46,7 +47,7 @@ class CategoryRemoteImpl extends ConnectorAuth implements CategoryStore {
           .then((response) => response.mapAndGetResult(
                 (params) => CategoryModel.listFromMap(params),
               ));
-    } on Exception catch (_) {
+    } on GetHttpException catch (_) {
       return const Error('Falha ao obter as categorias');
     }
   }
@@ -57,7 +58,7 @@ class CategoryRemoteImpl extends ConnectorAuth implements CategoryStore {
       return delete('$_endpoint/$id')
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.getResult());
-    } on Exception catch (_) {
+    } on GetHttpException catch (_) {
       return const Error('Falha ao excluir a categoria');
     }
   }

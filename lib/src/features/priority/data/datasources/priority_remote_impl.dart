@@ -1,3 +1,4 @@
+import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:task_manager/task_manager.dart';
 
@@ -12,7 +13,7 @@ class PriorityRemoteImpl extends ConnectorAuth implements PriorityStore {
           .then((response) => response.mapAndGetResult(
                 (params) => PriorityModel.listFromMap(params),
               ));
-    } on Exception catch (_) {
+    } on GetHttpException catch (_) {
       return const Error('Falha ao obter as prioridades');
     }
   }

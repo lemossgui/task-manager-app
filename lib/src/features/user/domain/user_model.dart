@@ -2,13 +2,15 @@ class UserModel {
   final int id;
   final String name;
   final String email;
-  final String password;
+  final String? password;
+  final bool? notificationIsEnable;
 
   UserModel({
     required this.id,
     required this.name,
     required this.email,
-    required this.password,
+    this.password,
+    this.notificationIsEnable,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,7 +29,7 @@ class UserModel {
       id: map['id']?.toInt() ?? 0,
       name: map['name'] ?? '',
       email: map['email'] ?? '',
-      password: map['password'] ?? '',
+      notificationIsEnable: map['notificationIsEnable'] ?? '',
     );
   }
 }

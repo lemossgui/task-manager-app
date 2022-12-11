@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:multiple_result/multiple_result.dart';
 import 'package:task_manager/task_manager.dart';
 
 enum LoginKey {
@@ -75,13 +76,14 @@ class LoginBloC extends BloC<LoginEvent> with RequiredStringStreamValidator {
       return;
     }
 
-    await doPersist(
-      action: () async {
-        final credentials = CredentialsModel(
-          email: _email!,
-          password: _password!,
-        );
-        final result = await repository.doLogin(credentials: credentials);
+    final credentials = CredentialsModel(
+      email: _email!,
+      password: _password!,
+    );
+
+    showLoadingDialog(
+      action: repository.doLogin(credentials: credentials),
+      onComplete: (result) {
         result.map(_handleLoginSuccess).mapError(showError);
       },
     );

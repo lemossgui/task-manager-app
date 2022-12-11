@@ -1,3 +1,4 @@
+import 'package:multiple_result/multiple_result.dart';
 import 'package:task_manager/task_manager.dart';
 
 enum CategoryFormKey {
@@ -111,9 +112,9 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
       return;
     }
 
-    await doPersist(
-      action: () async {
-        final result = await repository.save(_model);
+    showLoadingDialog(
+      action: repository.save(_model),
+      onComplete: (result) {
         result.map(_handleSaveSuccess).mapError(showError);
       },
     );
@@ -129,9 +130,9 @@ class CategoryFormBloC extends BloC<CategoryFormEvent>
       return;
     }
 
-    await doPersist(
-      action: () async {
-        final result = await repository.update(_id, _model);
+    showLoadingDialog(
+      action: repository.update(_id, _model),
+      onComplete: (result) {
         result.map(_handleUpdateSuccess).mapError(showError);
       },
     );

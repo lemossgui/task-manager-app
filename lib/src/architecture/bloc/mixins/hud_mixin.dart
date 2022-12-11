@@ -83,26 +83,4 @@ mixin HudMixin {
       ),
     );
   }
-
-  void showLoadingDialog({
-    String? message,
-    bool canDismiss = false,
-  }) {
-    Get.dialog(
-      Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(36.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircularProgressIndicator(),
-              const SizedBox(height: 10.0),
-              message != null ? Text(message) : const SizedBox.shrink(),
-            ],
-          ),
-        ),
-      ),
-      barrierDismissible: canDismiss,
-    );
-  }
 }
