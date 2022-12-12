@@ -3,8 +3,14 @@ import 'package:task_manager/task_manager.dart';
 class CategoryInjector extends Injector {
   @override
   void dependencies() {
+    put(
+      CategoryMapper(),
+    );
+
     put<CategoryStore>(
-      CategoryRemoteImpl(),
+      CategoryRemoteImpl(
+        mapper: find(),
+      ),
       tag: 'remote',
     );
 

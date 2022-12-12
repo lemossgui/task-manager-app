@@ -6,28 +6,31 @@ class UpdateEmailPage extends ScreenView<UpdateEmailBloC> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('E-mail'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 16.0,
-            ),
-            child: MyTextButton(
-              onPressed: () => bloc.dispatchEvent(UpdateEmail()),
-              label: 'Salvar',
-            ),
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: getBasePadding(context),
-        child: Column(
-          children: [
-            _buildName(),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('E-mail'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 16.0,
+              ),
+              child: MyTextButton(
+                onPressed: () => bloc.dispatchEvent(UpdateEmail()),
+                label: 'Salvar',
+              ),
+            )
           ],
+        ),
+        body: SingleChildScrollView(
+          padding: getBasePadding(context),
+          child: Column(
+            children: [
+              _buildName(),
+            ],
+          ),
         ),
       ),
     );

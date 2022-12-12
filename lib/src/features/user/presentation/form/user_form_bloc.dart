@@ -105,8 +105,8 @@ class UserFormBloC extends BloC<UserFormEvent>
     return passwordsIsEqual;
   }
 
-  UserModel get _model {
-    return UserModel(
+  UserSaveModel get _model {
+    return UserSaveModel(
       id: _id,
       name: _name!,
       email: _email!,

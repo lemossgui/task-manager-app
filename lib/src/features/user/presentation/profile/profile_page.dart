@@ -120,6 +120,8 @@ class ProfilePage extends ScreenView<ProfileBloC> {
                 child: Text(
                   name ?? '',
                   style: text,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
             ],
@@ -153,6 +155,8 @@ class ProfilePage extends ScreenView<ProfileBloC> {
                 child: Text(
                   email ?? '',
                   style: text,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
             ],

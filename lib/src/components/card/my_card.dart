@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/theme/colors.dart';
 
 class MyCard extends StatelessWidget {
+  final bool hasError;
   final Function? onTap;
   final EdgeInsetsGeometry? contentPadding;
   final Widget content;
 
   const MyCard({
     Key? key,
+    this.hasError = false,
     this.onTap,
     this.contentPadding,
     required this.content,
@@ -18,6 +20,7 @@ class MyCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
+        border: hasError ? Border.all(color: errorColor) : null,
         color: backgroundColor,
         boxShadow: [
           BoxShadow(

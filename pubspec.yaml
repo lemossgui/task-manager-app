@@ -9,6 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_cupertino_localizations:
+    sdk: flutter
   cupertino_icons: ^1.0.2
   get: ^4.6.1
   rxdart: ^0.26.0
@@ -26,6 +30,7 @@ dependencies:
   lottie: ^2.0.0
   circle_nav_bar: ^2.0.1+1
   flutter_switch: ^0.3.2
+  scroll_date_picker: ^3.6.0
 
 dev_dependencies:
   flutter_test:

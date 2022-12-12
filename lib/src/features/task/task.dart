@@ -1,3 +1,8 @@
+export 'data/datasources/task_remote_impl.dart';
+export 'data/datasources/task_store.dart';
+export 'data/repositories/task_repository_impl.dart';
+export 'data/repositories/task_repository.dart';
+export 'domain/task_mapper.dart';
 export 'domain/task_model.dart';
 export 'presentation/form/task_form_bloc.dart';
 export 'presentation/form/task_form_event.dart';

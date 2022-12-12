@@ -5,10 +5,18 @@ import 'package:task_manager/task_manager.dart';
 class UserRemoteImpl extends ConnectorAuth implements UserStore {
   final _endpoint = '/user';
 
+  final UserMapper mapper;
+  final UserSaveMapper saveMapper;
+
+  UserRemoteImpl({
+    required this.mapper,
+    required this.saveMapper,
+  });
+
   @override
-  AsyncResult<String, String> save(UserModel model) async {
+  AsyncResult<String, String> save(UserSaveModel model) async {
     try {
-      final body = model.toMap();
+      final body = saveMapper.toMap(model);
       return post(_endpoint, body)
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.getResult());
@@ -83,7 +91,7 @@ class UserRemoteImpl extends ConnectorAuth implements UserStore {
       return get('$_endpoint/logged')
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.mapAndGetResult(
-                (params) => UserModel.fromMap(params),
+                (params) => mapper.fromMap(params),
               ));
     } on GetHttpException catch (_) {
       return const Error('Falha ao obter o usuário');

@@ -1,5 +1,4 @@
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import 'package:lottie/lottie.dart';
 import 'package:task_manager/task_manager.dart';
 import 'package:flutter/material.dart';
 

@@ -5,13 +5,19 @@ import 'package:task_manager/task_manager.dart';
 class PriorityRemoteImpl extends ConnectorAuth implements PriorityStore {
   final _endpoint = '/priority';
 
+  final PriorityMapper mapper;
+
+  PriorityRemoteImpl({
+    required this.mapper,
+  });
+
   @override
   AsyncResult<List<PriorityModel>, String> findAll() async {
     try {
       return get(_endpoint)
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.mapAndGetResult(
-                (params) => PriorityModel.listFromMap(params),
+                (params) => mapper.listFromMap(params),
               ));
     } on GetHttpException catch (_) {
       return const Error('Falha ao obter as prioridades');

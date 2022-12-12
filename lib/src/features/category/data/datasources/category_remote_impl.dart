@@ -5,6 +5,12 @@ import 'package:task_manager/task_manager.dart';
 class CategoryRemoteImpl extends ConnectorAuth implements CategoryStore {
   final _endpoint = '/category';
 
+  final CategoryMapper mapper;
+
+  CategoryRemoteImpl({
+    required this.mapper,
+  });
+
   @override
   AsyncResult<String, String> saveAll(List<CategoryModel> list) {
     throw UnimplementedError('Não implementado remotamente');
@@ -13,7 +19,7 @@ class CategoryRemoteImpl extends ConnectorAuth implements CategoryStore {
   @override
   AsyncResult<int, String> save(CategoryModel model) async {
     try {
-      return post(_endpoint, model.toMap())
+      return post(_endpoint, mapper.toMap(model))
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.getResult());
     } on GetHttpException catch (_) {
@@ -31,7 +37,7 @@ class CategoryRemoteImpl extends ConnectorAuth implements CategoryStore {
   @override
   AsyncResult<int, String> update(int id, CategoryModel model) async {
     try {
-      return put('$_endpoint/$id', model.toMap())
+      return put('$_endpoint/$id', mapper.toMap(model))
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.getResult());
     } on GetHttpException catch (_) {
@@ -45,7 +51,7 @@ class CategoryRemoteImpl extends ConnectorAuth implements CategoryStore {
       return get(_endpoint)
           .then((json) => Response.fromMap(json.body))
           .then((response) => response.mapAndGetResult(
-                (params) => CategoryModel.listFromMap(params),
+                (params) => mapper.listFromMap(params),
               ));
     } on GetHttpException catch (_) {
       return const Error('Falha ao obter as categorias');

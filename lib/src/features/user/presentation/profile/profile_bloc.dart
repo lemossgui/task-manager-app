@@ -48,6 +48,7 @@ class ProfileBloC extends BloC<ProfileEvent> {
         result.map((user) {
           _dispatchId(user.id);
           _dispatchUser(user);
+          _dispatchNotificationsIsEnable(user.notificationIsEnable);
         }).mapError(showError);
       },
     );

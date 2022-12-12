@@ -3,8 +3,19 @@ import 'package:task_manager/task_manager.dart';
 class UserInjector extends Injector {
   @override
   void dependencies() {
+    put(
+      UserMapper(),
+    );
+
+    put(
+      UserSaveMapper(),
+    );
+
     put<UserStore>(
-      UserRemoteImpl(),
+      UserRemoteImpl(
+        mapper: find(),
+        saveMapper: find(),
+      ),
     );
 
     put<UserRepository>(

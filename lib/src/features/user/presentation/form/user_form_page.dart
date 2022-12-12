@@ -6,31 +6,34 @@ class UserFormPage extends ScreenView<UserFormBloC> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Usuário'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10.0,
-              horizontal: 16.0,
-            ),
-            child: MyTextButton(
-              onPressed: () => bloc.dispatchEvent(SaveUser()),
-              label: 'Salvar',
-            ),
-          )
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: getBasePadding(context),
-        child: Column(
-          children: [
-            _buildName(),
-            _buildEmail(),
-            _buildPassword(),
-            _buildPasswordConfirmation(),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Usuário'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 16.0,
+              ),
+              child: MyTextButton(
+                onPressed: () => bloc.dispatchEvent(SaveUser()),
+                label: 'Salvar',
+              ),
+            )
           ],
+        ),
+        body: SingleChildScrollView(
+          padding: getBasePadding(context),
+          child: Column(
+            children: [
+              _buildName(),
+              _buildEmail(),
+              _buildPassword(),
+              _buildPasswordConfirmation(),
+            ],
+          ),
         ),
       ),
     );

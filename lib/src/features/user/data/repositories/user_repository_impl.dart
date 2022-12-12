@@ -9,7 +9,7 @@ class UserRepositoryImpl implements UserRepository {
   });
 
   @override
-  AsyncResult<String, String> save(UserModel model) {
+  AsyncResult<String, String> save(UserSaveModel model) {
     return remote.save(model);
   }
 

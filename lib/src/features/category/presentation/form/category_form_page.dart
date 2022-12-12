@@ -6,9 +6,12 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _buildForm(context),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        body: _buildForm(context),
+      ),
     );
   }
 
@@ -74,88 +77,40 @@ class CategoryFormPage extends ScreenView<CategoryFormBloC> {
           final hasError = snapshot.hasError;
           final hasColor = snapshot.hasData;
           final colorKey = snapshot.data;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 16.0,
-                ),
-                decoration: BoxDecoration(
-                  color: backgroundColor,
-                  borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                  border: hasError ? Border.all(color: errorColor) : null,
-                ),
-                child: Row(
-                  children: [
-                    hasColor
-                        ? Padding(
-                            padding: const EdgeInsets.only(right: 12.0),
-                            child: Container(
-                              height: 40.0,
-                              width: 8.0,
-                              decoration: BoxDecoration(
-                                color: getCategoryColor(colorKey),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                          )
-                        : const SizedBox.shrink(),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 4.0),
-                            child: Text(
-                              'Cor',
-                              style: smallText,
-                            ),
-                          ),
-                          Text(
-                            hasColor
-                                ? getCategoryColorDescription(colorKey)
-                                : '-',
-                            style: text.bold,
-                          ),
-                        ],
+          return MyCard(
+            hasError: hasError,
+            content: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 4.0),
+                        child: Text(
+                          'Cor',
+                          style: smallText,
+                        ),
                       ),
-                    ),
-                    MyTextButton(
-                      onPressed: () {
-                        bloc.dispatchEvent(
-                          NavigateToSelectColor(),
-                        );
-                      },
-                      label: hasColor ? 'Alterar' : 'Definir',
-                      backgroundColor: backgroundColorDark,
-                      textColor: primaryTextColor,
-                    )
-                  ],
-                ),
-              ),
-              Visibility(
-                visible: hasError,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    '${snapshot.error?.toString()}',
-                    style: smallText.copyWith(
-                      color: errorColor,
-                    ),
+                      Text(
+                        hasColor ? getCategoryColorDescription(colorKey) : '-',
+                        style: text.bold,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                MyTextButton(
+                  onPressed: () {
+                    bloc.dispatchEvent(
+                      NavigateToSelectColor(),
+                    );
+                  },
+                  label: hasColor ? 'Alterar' : 'Definir',
+                  backgroundColor: backgroundColorDark,
+                  textColor: primaryTextColor,
+                )
+              ],
+            ),
           );
         },
       ),

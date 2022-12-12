@@ -4,6 +4,8 @@ enum TaskFormKey {
   isEditing,
   title,
   description,
+  startDate,
+  endDate,
   categories,
   category,
   priorities,
@@ -21,9 +23,17 @@ class TaskFormBloC extends BloC<TaskFormEvent> {
     required this.priorityRepository,
   });
 
-  void _dispatchCategory(CategoryModel? priority) {}
+  void _dispatchStartDate(DateTime? value) {
+    dispatch<DateTime?>(value, key: TaskFormKey.startDate);
+  }
 
-  void _dispatchPriority(PriorityModel? priority) {}
+  void _dispatchEndDate(DateTime? value) {
+    dispatch<DateTime?>(value, key: TaskFormKey.endDate);
+  }
+
+  void _dispatchCategory(CategoryModel? value) {}
+
+  void _dispatchPriority(PriorityModel? value) {}
 
   @override
   void onReady() async {
@@ -71,5 +81,27 @@ class TaskFormBloC extends BloC<TaskFormEvent> {
   }
 
   @override
-  void handleEvent(TaskFormEvent event) {}
+  void handleEvent(TaskFormEvent event) {
+    if (event is SelectStartDate) {
+      _selectStartDate();
+    } else if (event is SelectEndDate) {
+      _selectEndDate();
+    }
+  }
+
+  void _selectStartDate() async {
+    final date = await dialog(
+      DateTimePickerDialog(),
+    ) as DateTime?;
+
+    _dispatchStartDate(date);
+  }
+
+  void _selectEndDate() async {
+    final date = await dialog(
+      DateTimePickerDialog(),
+    ) as DateTime?;
+
+    _dispatchEndDate(date);
+  }
 }
